@@ -16,6 +16,7 @@ import com.github.jakz.romlib.ui.i18n.Text;
 public enum GameAttribute implements Attribute
 {
   NUMBER(Integer.class, Text.ROM_INFO_NUMBER),
+  ORDINAL(Integer.class, Text.GAME_INFO_ORDINAL),
   IMAGE_NUMBER(Integer.class, Text.ROM_INFO_IMAGE_NUMBER),
   TITLE(String.class, Text.ROM_INFO_TITLE),
   NORMALIZED_TITLE(String.class, Text.ROM_INFO_TITLE),

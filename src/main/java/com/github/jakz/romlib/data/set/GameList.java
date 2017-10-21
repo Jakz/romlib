@@ -12,6 +12,7 @@ import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.GameStatus;
 import com.github.jakz.romlib.data.game.Rom;
 import com.github.jakz.romlib.data.game.RomSize;
+import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 import com.pixbits.lib.io.digest.HashCache;
 
 public class GameList implements Iterable<Game>, GameMap
@@ -33,6 +34,8 @@ public class GameList implements Iterable<Game>, GameMap
 	public GameList(Game[] games, RomSize.Set set)
 	{
 	  this.games = games;
+	  for (int i = 0; i < games.length; ++i) 
+	    games[i].setAttribute(GameAttribute.ORDINAL, i);
 	  status = new GameSetStatus();
 	  Arrays.sort(games);
 	  cache = new HashCache<>(Arrays.stream(games).flatMap(g -> g.stream()));

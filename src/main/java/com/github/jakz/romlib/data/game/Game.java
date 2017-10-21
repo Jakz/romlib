@@ -107,7 +107,12 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	  if (!set.hasMultipleRomsPerGame())
 	    return new GameID.CRC(roms[0].crc());
 	  else
-	    throw new UnsupportedOperationException("no GameID generator for sets with multiple roms per game");
+	  {
+	    long[] crcs = Arrays.stream(roms).mapToLong(Rom::crc).toArray();
+	    return new GameID.MultipleCRC(crcs);
+	  }
+	  
+	  //  throw new UnsupportedOperationException("no GameID generator for sets with multiple roms per game");
 	}
 		
 	public void setStatus(GameStatus status) { this.status = status; } // TODO: should be visible?
@@ -160,7 +165,7 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	    status = GameStatus.MISSING;
 	  else if (!allFound.get())
 	    status = GameStatus.INCOMPLETE;
-	  else if (!isOrganized())
+	  else if (!isOrganized()) 
 	    status = GameStatus.UNORGANIZED;
 	  else
 	    status = GameStatus.FOUND;
@@ -168,14 +173,19 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 
 	public boolean isOrganized()
 	{
+   	//TODO: forced true because hasCorrectName and hasCorrectFolder throw exceptions forcibly
+	  if (true)
+	    return true;
+
 	  boolean name = hasCorrectName(), folder = hasCorrectFolder();
-	  return name && folder;
+	  return true || (name && folder); 
 	}
   
   public String getCorrectName()
   {
+    return getTitle();
     //TODO
-    throw new UnsupportedOperationException("Must be reimplemented");
+    //throw new UnsupportedOperationException("Must be reimplemented");
 
     /*return set.helper().renamer().getNameForGame(this);*/
   }
