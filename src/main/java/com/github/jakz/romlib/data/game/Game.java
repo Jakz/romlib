@@ -104,7 +104,7 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	public GameID<?> getID()
 	{ 
 	  // TODO: find a generic way
-	  if (!set.hasMultipleRomsPerGame())
+	  if (!hasMultipleRoms())
 	    return new GameID.CRC(roms[0].crc());
 	  else
 	  {

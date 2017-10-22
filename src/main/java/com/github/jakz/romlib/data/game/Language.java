@@ -24,12 +24,16 @@ public enum Language
   GREEK("Greek", "EL", Icon.FLAG_GREECE),
   CATALAN("Catalan", "CA", Icon.FLAG_SPAIN), //TODO flag
   CROATIAN("Croatian", "HR", Icon.FLAG_CROATIA),
+  HUNGARIAN("Hungarian", "HU", Icon.FLAG_HUNGARY),
+  TURKISH("Turkish", "TR", Icon.FLAG_TURKEY),
   
 	ENGLISH_UK("English (UK)", "EN", Icon.FLAG_UNITED_KINGDOM),
 	PORTUGUESE_BR("Portuguese (BR)", "PT", Icon.FLAG_BRAZIL),
 	KOREAN("Korean", "KO", Icon.FLAG_KOREA),
 	RUSSIAN("Russian", "RU", Icon.FLAG_RUSSIA),
-
+  HINDI("Hindi", "HI", Icon.FLAG_INDIA),
+  CZECH("Czech", "Cs", Icon.FLAG_CZECH_REPUBLIC)
+  
 	;
 	
 	public final String fullName;

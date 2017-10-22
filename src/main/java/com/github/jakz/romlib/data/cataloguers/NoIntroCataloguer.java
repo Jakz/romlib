@@ -53,6 +53,7 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("Croatia", game -> game.getLocation().add(Location.CROATIA));
     mappers.put("Taiwan", game -> game.getLocation().add(Location.TAIWAN));
     mappers.put("Hong Kong", game -> game.getLocation().add(Location.HONG_KONG));
+    mappers.put("Greece", game -> game.getLocation().add(Location.GREECE));
     mappers.put("Unknown", game -> {}); // maybe a Location.UNKNOWN should be used?
 
     mappers.put("En", game -> game.getLanguages().add(Language.ENGLISH));
@@ -75,11 +76,19 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("Pl", game -> game.getLanguages().add(Language.POLISH));
     mappers.put("Ru", game -> game.getLanguages().add(Language.RUSSIAN));
     mappers.put("El", game -> game.getLanguages().add(Language.GREEK));
+    mappers.put("Hu", game -> game.getLanguages().add(Language.HUNGARIAN));
+    mappers.put("Tr", game -> game.getLanguages().add(Language.TURKISH));
+    mappers.put("Hi", game -> game.getLanguages().add(Language.HINDI));
+    mappers.put("Cs", game -> game.getLanguages().add(Language.CZECH));
 
-    
+    /* TODO: verify that settng the version doesn't override another one in case
+     * of multiple versions. Actually maybe it would be better to manage version
+     * as List<Version>
+     */
     mappers.put("Demo", game -> game.setVersion(Version.DEMO));
     mappers.put("Sample", game -> game.setVersion(Version.SAMPLE));
     mappers.put("Proto", game -> game.setVersion(Version.PROTO));
+    mappers.put("Promo", game -> game.setVersion(Version.PROMO));
     
     mappers.put("Unl", game -> game.setLicensed(false));
     
