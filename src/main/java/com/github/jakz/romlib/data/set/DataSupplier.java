@@ -4,7 +4,9 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import com.github.jakz.romlib.data.cataloguers.GameCataloguer;
+import com.github.jakz.romlib.data.cataloguers.TitleNormalizer;
 import com.github.jakz.romlib.data.game.Game;
+import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 
 public interface DataSupplier
 { 
@@ -38,14 +40,17 @@ public interface DataSupplier
     };
   }
   
-  public static DataSupplier derive(final DataSupplier supplier, final GameCataloguer cataloguer)
+  public static DataSupplier derive(final DataSupplier supplier, final GameCataloguer cataloguer, final TitleNormalizer normalizer)
   {
     return new DataSupplier()
     {
       @Override public Data load(GameSet set)
       {
         Data data = supplier.load(set);
-        data.games.ifPresent(games -> games.forEach(game -> cataloguer.catalogue(game)));
+        data.games.ifPresent(games -> games.forEach(game -> {
+          cataloguer.catalogue(game);
+          game.setAttribute(GameAttribute.NORMALIZED_TITLE, normalizer.normalize(game.getTitle()));
+        }));
         cataloguer.done();
         return data;
       }
@@ -53,7 +58,7 @@ public interface DataSupplier
       @Override public DatFormat getFormat() { return supplier.getFormat(); }
     };
   }
-  
+
   public static DataSupplier build(final DatFormat format)
   {
     return new DataSupplier()

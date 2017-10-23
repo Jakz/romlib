@@ -9,7 +9,10 @@ import java.util.stream.Stream;
 
 public class RomSize implements Comparable<RomSize>
 {
-	public final static long GIGABYTE = 1 << 30;
+  public final static long TERABYTE = 1 << 40;
+  public final static long TERABIT = TERABYTE / 8;
+  
+  public final static long GIGABYTE = 1 << 30;
 	public final static long GIGABIT = GIGABYTE / 8;
   
   public final static long MEGABYTE = 1 << 20;
@@ -32,14 +35,18 @@ public class RomSize implements Comparable<RomSize>
 	
 	public static enum Unit
 	{
-	  KILOBYTE(1 << 10, "KByte", "KB", null),
-	  MEGABYTE(1 << 20, "MByte", "MB", KILOBYTE),
-    GIGABYTE(1 << 30, "GByte", "GB", MEGABYTE),
+	  KILOBYTE(1L << 10, "KByte", "KB", null),
+	  MEGABYTE(1L << 20, "MByte", "MB", KILOBYTE),
+    GIGABYTE(1L << 30, "GByte", "GB", MEGABYTE),
+    TERABYTE(1L << 40, "TByte", "TB", GIGABYTE),
     
     KILOBIT(KILOBYTE.bytes/8, "Kbit", "Kb", null),
     MEGABIT(MEGABYTE.bytes/8, "Mbit", "Mb", KILOBIT),
-    GIGABIT(GIGABYTE.bytes/8, "Gbit", "Gb", MEGABIT);
-	  
+    GIGABIT(GIGABYTE.bytes/8, "Gbit", "Gb", MEGABIT),
+    TERABIT(TERABYTE.bytes/8, "Tbit", "Tb", GIGABIT)
+    
+    ;
+
 	  public final String shortName;
 	  public final String longName;
 	  public final long bytes;
@@ -99,7 +106,7 @@ public class RomSize implements Comparable<RomSize>
 
 	public static String toString(long bytes, PrintStyle style, PrintUnit unit)
 	{
-	  Unit size = unit == PrintUnit.BITS ? Unit.GIGABIT : Unit.GIGABYTE;
+	  Unit size = unit == PrintUnit.BITS ? Unit.TERABIT : Unit.TERABYTE;
 	  
 	  if (bytes == 0)
 	    return "0 bytes";

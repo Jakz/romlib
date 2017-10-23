@@ -182,8 +182,10 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	}
   
   public String getCorrectName()
-  {
-    return getTitle();
+  { 
+    return set.helper().renamer().getNameForGame(this);
+    
+    //return getTitle();
     //TODO
     //throw new UnsupportedOperationException("Must be reimplemented");
 
