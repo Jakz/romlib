@@ -40,6 +40,7 @@ public enum GameAttribute implements Attribute
     }
   },
   
+  COLLECTION(String.class, Text.GAME_INFO_COLLECTION),
   GENRE(Genre.class, Text.ROM_INFO_GENRE),
   TAG(String.class, Text.ROM_INFO_TAG),
   EXPORT_TITLE(String.class, Text.GAME_INFO_EXPORT_TITLE),

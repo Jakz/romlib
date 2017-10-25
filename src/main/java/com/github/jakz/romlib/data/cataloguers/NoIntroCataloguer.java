@@ -20,6 +20,7 @@ import com.github.jakz.romlib.data.game.Language;
 import com.github.jakz.romlib.data.game.Location;
 import com.github.jakz.romlib.data.game.Version;
 import com.github.jakz.romlib.data.game.VideoFormat;
+import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 import com.github.jakz.romlib.data.platforms.GBC;
 
 public class NoIntroCataloguer implements GameCataloguer
@@ -98,6 +99,12 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("GB Compatible", game -> game.setCustomAttribute(GBC.Attribute.GB_COMPATIBLE, true));
     mappers.put("SGB Enhanced", game -> game.setCustomAttribute(GBC.Attribute.SGB_ENHANCED, true));
     mappers.put("Rumble Version", game -> game.setCustomAttribute(GBC.Attribute.RUMBLE_VERSION, true));
+    
+    
+    /* PSP collections */
+    mappers.put("PSP Essentials", game -> game.setAttribute(GameAttribute.COLLECTION, "PSP Essentials"));
+    mappers.put("Platinum", game -> game.setAttribute(GameAttribute.COLLECTION, "Platinum"));
+    mappers.put("PSP Essentials", game -> game.setAttribute(GameAttribute.COLLECTION, "PSP The Best"));
 
     
     lambdas = new ArrayList<>();

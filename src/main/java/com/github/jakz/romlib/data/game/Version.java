@@ -9,19 +9,23 @@ public interface Version
   
   public final static Version SAMPLE = new Version() {
     @Override public boolean equals(Object obj) { return obj == this; }
+    @Override public String toString() { return "Sample"; }
   };
   
   public final static Version DEMO = new Version() {
     @Override public boolean equals(Object obj) { return obj == this; }
+    @Override public String toString() { return "Demo"; }
   };
 
   public final static Version PROTO = new Version() {
     @Override public boolean equals(Object obj) { return obj == this; }
+    @Override public String toString() { return "Proto"; }
   };
   
 
   public final static Version PROMO = new Version() {
     @Override public boolean equals(Object obj) { return obj == this; }
+    @Override public String toString() { return "Promo"; }
   };
   
   public final static Version UNSPECIFIED = new Version() {

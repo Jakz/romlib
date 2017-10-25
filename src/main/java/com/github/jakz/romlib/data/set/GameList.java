@@ -35,7 +35,7 @@ public class GameList implements Iterable<Game>, GameMap
 	{
 	  this.games = games;
 	  for (int i = 0; i < games.length; ++i) 
-	    games[i].setAttribute(GameAttribute.ORDINAL, i);
+	    games[i].setAttribute(GameAttribute.ORDINAL, i+1);
 	  status = new GameSetStatus();
 	  Arrays.sort(games);
 	  cache = new HashCache<>(Arrays.stream(games).flatMap(g -> g.stream()));
