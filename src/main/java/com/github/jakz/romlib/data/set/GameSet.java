@@ -137,8 +137,14 @@ public class GameSet implements Iterable<Game>, GameMap
 	public boolean hasSharedRomsBetweenGames() { return list.sharedRomMap().hasAnySharedRom(); }
 	
 	public void checkNames() { list.checkNames(); }
-	public void resetStatus() { list.resetStatus(); }
 	public void refreshStatus() { list.refreshStatus(); }
+	public void resetStatus()
+	{ 
+	   list.resetStatus(); 
+	   if (clones != null)
+	     clones.resetStatus();
+	}
+
 	
 	public Game getAny() { return get(0); }
 	public Game get(int index) { return list.get(index); }

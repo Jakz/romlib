@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.GameClone;
+import com.github.jakz.romlib.data.game.GameStatus;
 
 public class CloneSet implements Iterable<GameClone>
 {
@@ -23,6 +24,17 @@ public class CloneSet implements Iterable<GameClone>
     Arrays.stream(clones).forEach(gc -> {
       gc.stream().forEach(g -> cloneMap.put(g, gc));
     });  
+  }
+  
+  public void resetStatus()
+  {
+    for (GameClone clone : clones)
+      clone.setStatus(GameStatus.MISSING);
+  }
+  
+  public void updateStatus()
+  {
+    for (GameClone clone : clones) clone.updateStatus();
   }
   
   public GameClone get(Game game) { return cloneMap.get(game); }

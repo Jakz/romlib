@@ -7,16 +7,22 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class GameClone implements Iterable<Game>
+public class GameClone implements Iterable<Game>, Drawable
 {  
   private final Game[] games;
-  
   private final String[] names;
+  private final LocationSet location;
+  
+  private int foundCount;
+  private GameStatus status;
   
   public GameClone(Game game)
   {
     this.games = new Game[] { game };
     this.names = null;
+    this.location = new LocationSet();
+    this.location.add(game.getLocation());
+    this.status = GameStatus.MISSING;
   }
   
   public GameClone(Game game, Location location, String name)
@@ -25,6 +31,8 @@ public class GameClone implements Iterable<Game>
     // TODO: maybe better management without the need of the whole array
     this.names = new String[Location.values().length];
     this.names[location.ordinal()] = name;
+    this.location = new LocationSet(location);
+    this.status = GameStatus.MISSING;
   }
   
   public GameClone(Collection<Game> games, String[] names)
@@ -32,6 +40,9 @@ public class GameClone implements Iterable<Game>
     if (games.isEmpty()) throw new IllegalArgumentException("a GameClone can't be empty");
     this.games = games.toArray(new Game[games.size()]);
     this.names = names;
+    this.location = new LocationSet();
+    games.stream().map(Game::getLocation).forEach(location::add);
+    this.status = GameStatus.MISSING;
   }
 
   public GameClone(Collection<Game> games)
@@ -72,10 +83,49 @@ public class GameClone implements Iterable<Game>
     else
       return null;
   }
+  
+  public void setStatus(GameStatus status) { this.status = status; }
+  
+  public void updateStatus()
+  {
+    boolean hasMissing = false, hasFound = false, hasUnorganized = false;
+    foundCount = 0;
+    
+    for (Game game : games)
+    {
+      GameStatus status = game.getStatus();
+      hasMissing = hasMissing || status == GameStatus.MISSING || status == GameStatus.INCOMPLETE;
+      hasFound = hasFound || status == GameStatus.FOUND;
+      hasUnorganized = hasUnorganized || status == GameStatus.UNORGANIZED;
+      
+      if (status == GameStatus.FOUND || status == GameStatus.UNORGANIZED)
+        ++foundCount;
+    }
+    
+    if (hasMissing)
+    {
+      if (hasFound || hasUnorganized)
+        status = GameStatus.INCOMPLETE;
+      else
+        status = GameStatus.MISSING;
+    }
+    else if (hasFound)
+    {
+      if (hasUnorganized)
+        status = GameStatus.UNORGANIZED;
+      else
+        status = GameStatus.FOUND;
+    }
+  }
  
   public Game get(int index) { return games[index]; }
   public int size() { return games.length; }
   
   public Iterator<Game> iterator() { return Arrays.asList(games).iterator(); }
   public Stream<Game> stream() { return Arrays.stream(games); }
+  
+  @Override public String getDrawableCaption() { return games[0].getNormalizedTitle() + " (" + foundCount + "/" + games.length + ")"; } //TODO: better management
+  @Override public LocationSet getDrawableLocation() { return location; }
+  @Override public boolean getDrawableFavourite() { return false; }
+  @Override public GameStatus getDrawableStatus() { return status; }
 }

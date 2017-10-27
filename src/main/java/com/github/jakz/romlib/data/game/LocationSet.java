@@ -2,6 +2,7 @@ package com.github.jakz.romlib.data.game;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import com.github.jakz.romlib.ui.Icon;
 
@@ -9,9 +10,14 @@ public class LocationSet
 {
   private long mask;
   
+  public LocationSet(Stream<Location> locations)
+  {
+    mask = locations.reduce(0L, (m,l) -> m | l.mask, (u,v) -> u | v);
+  }
+  
   public LocationSet(Location... locations)
   {
-    mask = Arrays.stream(locations).reduce(0L, (m,l) -> m | l.mask, (u,v) -> u | v);
+    this(Arrays.stream(locations));
   }
   
   public LocationSet(long mask)

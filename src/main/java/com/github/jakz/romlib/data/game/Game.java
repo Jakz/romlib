@@ -20,7 +20,7 @@ import com.github.jakz.romlib.data.game.attributes.GameInfo;
 import com.github.jakz.romlib.data.platforms.Platform;
 import com.github.jakz.romlib.data.set.GameSet;
 
-public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInterface
+public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInterface, Drawable
 {
 	private final GameSet set;
 
@@ -169,6 +169,9 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	    status = GameStatus.UNORGANIZED;
 	  else
 	    status = GameStatus.FOUND;
+	  
+	  if (clone != null)
+	    clone.updateStatus();
 	}
 
 	public boolean isOrganized()
@@ -281,4 +284,9 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 		
 	public boolean isFavourite() { return favourite; }
 	public void setFavourite(boolean value) { favourite = value; }
+	
+	@Override public String getDrawableCaption() { return getTitle(); }
+	@Override public LocationSet getDrawableLocation() { return getLocation(); }
+  @Override public boolean getDrawableFavourite() { return isFavourite(); }
+  @Override public GameStatus getDrawableStatus() { return getStatus(); }
 }

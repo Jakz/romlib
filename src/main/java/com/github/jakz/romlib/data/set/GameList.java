@@ -62,7 +62,7 @@ public class GameList implements Iterable<Game>, GameMap
 	public HashCache<Rom> cache() { return cache; }
 	public RomSize.Set sizeSet() { return sizeSet; }
 
-	public void resetStatus()
+	void resetStatus()
 	{
 		Arrays.stream(games).forEach(g -> {
 		  g.setStatus(GameStatus.MISSING);

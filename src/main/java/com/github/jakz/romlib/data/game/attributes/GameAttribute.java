@@ -50,6 +50,7 @@ public enum GameAttribute implements Attribute
   VERSION(Text.ROM_INFO_VERSION),
   
   LICENSED(Text.ROM_INFO_LICENSED),
+  BAD_DUMP(Text.GAME_INFO_BAD_DUMP),
   
   PATH(Text.ROM_INFO_PATH)
   ;

@@ -208,6 +208,9 @@ public class NoIntroCataloguer implements GameCataloguer
         games.add(game.getTitle());
       }); 
     });    
+    
+    if (title.contains("[b]"))
+      game.setAttribute(GameAttribute.BAD_DUMP, true);
   }
   
   @Override public void done() { printAddendums(); }
