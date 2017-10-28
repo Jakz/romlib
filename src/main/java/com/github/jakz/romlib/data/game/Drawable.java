@@ -6,4 +6,6 @@ public interface Drawable
   public GameStatus getDrawableStatus();
   public boolean getDrawableFavourite();
   public String getDrawableCaption();
+  public long getDrawableSize();
+  public int getDrawableOrdinal();
 }

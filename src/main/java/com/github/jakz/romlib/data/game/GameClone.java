@@ -12,6 +12,8 @@ public class GameClone implements Iterable<Game>, Drawable
   private final Game[] games;
   private final String[] names;
   private final LocationSet location;
+  private final long size;
+  int ordinal;
   
   private int foundCount;
   private GameStatus status;
@@ -23,6 +25,7 @@ public class GameClone implements Iterable<Game>, Drawable
     this.location = new LocationSet();
     this.location.add(game.getLocation());
     this.status = GameStatus.MISSING;
+    this.size = game.getSizeInBytes();
   }
   
   public GameClone(Game game, Location location, String name)
@@ -33,6 +36,8 @@ public class GameClone implements Iterable<Game>, Drawable
     this.names[location.ordinal()] = name;
     this.location = new LocationSet(location);
     this.status = GameStatus.MISSING;
+    this.size = game.getSizeInBytes();
+
   }
   
   public GameClone(Collection<Game> games, String[] names)
@@ -43,6 +48,7 @@ public class GameClone implements Iterable<Game>, Drawable
     this.location = new LocationSet();
     games.stream().map(Game::getLocation).forEach(location::add);
     this.status = GameStatus.MISSING;
+    this.size = games.stream().mapToLong(Game::getSizeInBytes).sum();
   }
 
   public GameClone(Collection<Game> games)
@@ -128,4 +134,6 @@ public class GameClone implements Iterable<Game>, Drawable
   @Override public LocationSet getDrawableLocation() { return location; }
   @Override public boolean getDrawableFavourite() { return false; }
   @Override public GameStatus getDrawableStatus() { return status; }
+  @Override public long getDrawableSize() { return size; }
+  @Override public int getDrawableOrdinal() { return ordinal; }
 }

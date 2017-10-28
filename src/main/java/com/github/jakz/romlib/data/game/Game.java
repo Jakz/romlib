@@ -94,6 +94,7 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	    throw new UnsupportedOperationException("Can't invoke Game::rom to obtain the single rom on a game with multiple roms");
 	  return roms[0];
 	}
+	public Rom rom(int index) { return roms[index]; }
 	public int romCount() { return roms.length; }
 	
 	public boolean shouldSerializeState()
@@ -289,4 +290,7 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	@Override public LocationSet getDrawableLocation() { return getLocation(); }
   @Override public boolean getDrawableFavourite() { return isFavourite(); }
   @Override public GameStatus getDrawableStatus() { return getStatus(); }
+  @Override public long getDrawableSize() { return getSizeInBytes(); }
+  @Override public int getDrawableOrdinal() { return getAttribute(GameAttribute.ORDINAL); }
+
 }
