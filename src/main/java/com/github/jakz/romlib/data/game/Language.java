@@ -27,12 +27,13 @@ public enum Language
   HUNGARIAN("Hungarian", "HU", Icon.FLAG_HUNGARY),
   TURKISH("Turkish", "TR", Icon.FLAG_TURKEY),
   
+  ENGLISH_EU("English (EU)", "EN", Icon.FLAG_UNITED_KINGDOM),
 	ENGLISH_UK("English (UK)", "EN", Icon.FLAG_UNITED_KINGDOM),
 	PORTUGUESE_BR("Portuguese (BR)", "PT", Icon.FLAG_BRAZIL),
 	KOREAN("Korean", "KO", Icon.FLAG_KOREA),
 	RUSSIAN("Russian", "RU", Icon.FLAG_RUSSIA),
   HINDI("Hindi", "HI", Icon.FLAG_INDIA),
-  CZECH("Czech", "Cs", Icon.FLAG_CZECH_REPUBLIC)
+  CZECH("Czech", "CS", Icon.FLAG_CZECH_REPUBLIC)
   
 	;
 	

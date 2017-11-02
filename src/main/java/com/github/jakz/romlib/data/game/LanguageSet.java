@@ -14,6 +14,7 @@ public class LanguageSet implements Iterable<Language>
     languages = new TreeSet<>();
   }
   
+  public boolean empty() { return languages.isEmpty(); }
   public int size() { return languages.size(); }
   public void add(Language language) { languages.add(language); }
     

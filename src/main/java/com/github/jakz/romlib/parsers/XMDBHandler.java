@@ -16,6 +16,7 @@ import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.GameClone;
 import com.github.jakz.romlib.data.game.Location;
 import com.github.jakz.romlib.data.set.CloneSet;
+import com.github.jakz.romlib.data.set.GameList;
 import com.github.jakz.romlib.data.set.GameMap;
 import com.pixbits.lib.io.xml.XMLEmbeddedDTD;
 import com.pixbits.lib.io.xml.XMLHandler;
@@ -64,6 +65,7 @@ public class XMDBHandler extends XMLHandler<CloneSet>
   List<GameClone> clones;
   GameMap list;
   List<Game> clone;
+  Map<String, String> attributes;
   List<Pair<Location,String>> biases;
   
   public XMDBHandler(GameMap list)
@@ -108,15 +110,20 @@ public class XMDBHandler extends XMLHandler<CloneSet>
         clones.add(new GameClone(clone, zones));
       }
     }
-    else if (name.equals("header"))
-    {
-      clones = new ArrayList<>();
-    }
   }
   
   @Override protected void start(String ns, String name, Attributes attr) throws SAXException
   {
-    if (name.equals("parents"))
+    if (name.equals("set"))
+    {
+      attributes = new HashMap<>();
+
+      if (attr.getValue("name") != null)
+        attributes.put("name", attr.getValue("name"));
+      if (attr.getValue("version") != null)
+        attributes.put("version", attr.getValue("version"));
+    }
+    else if (name.equals("parents"))
     {
       clones = new ArrayList<>();
     }
@@ -150,9 +157,8 @@ public class XMDBHandler extends XMLHandler<CloneSet>
 
   @Override public CloneSet get()
   {
-    return new CloneSet(clones.toArray(new GameClone[clones.size()]));
+    return new CloneSet(clones.toArray(new GameClone[clones.size()]), attributes);
   }
-  
   
   public static CloneSet loadCloneSet(GameMap list, Path path) throws IOException, SAXException
   {

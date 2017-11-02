@@ -121,7 +121,7 @@ public class GameSet implements Iterable<Game>, GameMap
 	    List<GameClone> clones = this.clones.stream().collect(Collectors.toList());
 	    clones.addAll(orphanClones);
 	    
-	    this.clones = new CloneSet(clones.toArray(new GameClone[clones.size()]));
+	    this.clones = new CloneSet(clones.toArray(new GameClone[clones.size()]), this.clones.attributes());
 	  }
 	}
 	

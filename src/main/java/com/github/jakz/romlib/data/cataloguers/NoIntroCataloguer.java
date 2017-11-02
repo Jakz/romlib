@@ -33,8 +33,14 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers = new HashMap<>();
     mappers.put("World", game -> game.getLocation().add(Location.WORLD));
     mappers.put("Asia", game -> game.getLocation().add(Location.ASIA));
-    mappers.put("USA", game -> game.getLocation().add(Location.USA));
-    mappers.put("Japan", game -> game.getLocation().add(Location.JAPAN));
+    mappers.put("USA", game -> { 
+      game.getLocation().add(Location.USA);
+      game.getLanguages().add(Language.ENGLISH);
+    });
+    mappers.put("Japan", game -> {
+      game.getLocation().add(Location.JAPAN);
+      game.getLanguages().add(Language.JAPANESE);
+    });
     mappers.put("Europe", game -> game.getLocation().add(Location.EUROPE));
     mappers.put("Italy", game -> game.getLocation().add(Location.ITALY));
     mappers.put("France", game -> game.getLocation().add(Location.FRANCE));
@@ -43,7 +49,10 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("Poland", game -> game.getLocation().add(Location.POLAND));
     mappers.put("Portugal", game -> game.getLocation().add(Location.PORTUGAL));
     mappers.put("Canada", game -> game.getLocation().add(Location.CANADA));
-    mappers.put("Korea", game -> game.getLocation().add(Location.KOREA));
+    mappers.put("Korea", game -> { 
+      game.getLocation().add(Location.KOREA);
+      game.getLanguages().add(Language.KOREAN);
+    });
     mappers.put("Sweden", game -> game.getLocation().add(Location.SWEDEN));
     mappers.put("China", game -> game.getLocation().add(Location.CHINA));
     mappers.put("Australia", game -> game.getLocation().add(Location.AUSTRALIA));
@@ -100,11 +109,13 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("SGB Enhanced", game -> game.setCustomAttribute(GBC.Attribute.SGB_ENHANCED, true));
     mappers.put("Rumble Version", game -> game.setCustomAttribute(GBC.Attribute.RUMBLE_VERSION, true));
     
+    mappers.put("[b]", game -> game.setAttribute(GameAttribute.BAD_DUMP, true));
+
     
     /* PSP collections */
     mappers.put("PSP Essentials", game -> game.setAttribute(GameAttribute.COLLECTION, "PSP Essentials"));
     mappers.put("Platinum", game -> game.setAttribute(GameAttribute.COLLECTION, "Platinum"));
-    mappers.put("PSP Essentials", game -> game.setAttribute(GameAttribute.COLLECTION, "PSP The Best"));
+    mappers.put("PSP The Best", game -> game.setAttribute(GameAttribute.COLLECTION, "PSP The Best"));
 
     
     lambdas = new ArrayList<>();
@@ -204,13 +215,13 @@ public class NoIntroCataloguer implements GameCataloguer
             return;
         }
         
+        //if (game.getLocation().isJust(Location.EUROPE) && game.getLanguages().empty())
+        //  game.getLanguages().add(Language.ENGLISH_UK);
+        
         List<String> games = unknownTokens.computeIfAbsent(t, kk -> new ArrayList<>());
         games.add(game.getTitle());
       }); 
     });    
-    
-    if (title.contains("[b]"))
-      game.setAttribute(GameAttribute.BAD_DUMP, true);
   }
   
   @Override public void done() { printAddendums(); }

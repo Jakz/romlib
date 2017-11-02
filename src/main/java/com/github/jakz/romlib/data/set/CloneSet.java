@@ -1,6 +1,7 @@
 package com.github.jakz.romlib.data.set;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -12,11 +13,18 @@ import com.github.jakz.romlib.data.game.GameStatus;
 
 public class CloneSet implements Iterable<GameClone>
 {
+  private final Map<String, String> attributes;
   private final GameClone[] clones;
   private final Map<Game, GameClone> cloneMap;
   
   public CloneSet(GameClone[] clones)
   {
+    this(clones, Collections.emptyMap());
+  }
+  
+  public CloneSet(GameClone[] clones, Map<String, String> attributes)
+  {
+    this.attributes = attributes;
     this.clones = clones;
     
     cloneMap = new HashMap<>((int)Arrays.stream(clones).flatMap(GameClone::stream).count());
@@ -43,4 +51,6 @@ public class CloneSet implements Iterable<GameClone>
   
   public Iterator<GameClone> iterator() { return Arrays.asList(clones).iterator(); }
   public Stream<GameClone> stream() { return Arrays.stream(clones); }
+  
+  public Map<String, String> attributes() { return attributes; }
 }
