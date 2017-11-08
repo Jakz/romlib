@@ -37,6 +37,11 @@ public class GameSetInfo implements GameSetAttributeInterface
     this.setAttribute(GameSetAttribute.CAPTION, provider.prettyName());
   }
   
+  public GameSetInfo()
+  {
+    this(Provider.DUMMY, DatFormat.DUMMY, AssetManager.DUMMY);
+  }
+  
   public GameSetInfo(Provider provider)
   {
     this(provider, DatFormat.DUMMY, AssetManager.DUMMY);

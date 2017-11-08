@@ -64,6 +64,7 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	{
 	  this.set = null;
     this.info = new GameInfo();
+    status = GameStatus.MISSING;
     setRom(roms);
 	}
 
@@ -187,7 +188,11 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
   
   public String getCorrectName()
   { 
-    return set.helper().renamer().getNameForGame(this);
+    //TODO: necessary because set maybe null
+    if (set != null)
+      return set.helper().renamer().getNameForGame(this);
+    else
+      return getTitle();
     
     //return getTitle();
     //TODO
