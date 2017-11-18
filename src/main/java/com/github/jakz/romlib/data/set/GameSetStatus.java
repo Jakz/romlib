@@ -11,6 +11,9 @@ public class GameSetStatus
   private int countIncomplete;
   private int countBadlyNamed;
   
+  private long foundSizeInBytes;
+  private long actualSizeInBytes;
+  
   
   public GameSetStatus()
   {
@@ -21,10 +24,14 @@ public class GameSetStatus
   }
   
   public void refresh(Stream<Game> games)
-  {
+  {    
     countNotFound = 0;
     countBadlyNamed = 0;
     countCorrect = 0;
+    countIncomplete = 0;
+    
+    foundSizeInBytes = 0;
+    actualSizeInBytes = 0;
     
     games.forEach(g -> {
       switch (g.getStatus())
@@ -34,6 +41,14 @@ public class GameSetStatus
         case UNORGANIZED: ++countBadlyNamed; break;
         case FOUND: ++countCorrect; break;
       }
+      
+      g.stream().forEach(r -> {
+        if (r.isPresent())
+        {
+          foundSizeInBytes += r.size.bytes();
+          actualSizeInBytes += r.handle().compressedSize();
+        }
+      });
     });
   }
   
@@ -42,4 +57,7 @@ public class GameSetStatus
   public int getUnorganizedCount() { return countBadlyNamed; }
   public int getIncompleteCount() { return countIncomplete; }
   public int getFoundCount() { return countCorrect + countBadlyNamed; }
+  
+  public long foundBytes() { return foundSizeInBytes; }
+  public long compressedBytes() { return actualSizeInBytes; }
 }

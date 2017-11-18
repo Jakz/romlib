@@ -17,7 +17,7 @@ public enum Platforms implements Platform
   GBC("gbc", "GameBoy Color", new String[] {"gbc"}, Icon.SYSTEM_GAMEBOY_COLOR),
   GBA("gba", "GameBoy Advance",new String[] {"gba", "agb", "bin"}, Icon.SYSTEM_GAMEBOY_ADVANCE),
   NDS("nds", "Nintendo DS", new String[] {"nds", "dsi"}, Icon.SYSTEM_NINTENDO_DS),
-  _3DS("3ds", "Nintendo 3DS", new String[] {"3ds"}),
+  _3DS("3ds", "Nintendo 3DS", new String[] {"3ds", "cia", "3dsx"}),
 
   LYNX("lynx", "Atary Lynx", new String[] { "lnx" }),
   

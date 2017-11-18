@@ -90,5 +90,7 @@ public interface Version
     { 
       return (obj instanceof Revision) && ((Revision)obj).type.equals(type);
     }
+    
+    public String toString() { return type; }
   }
 }

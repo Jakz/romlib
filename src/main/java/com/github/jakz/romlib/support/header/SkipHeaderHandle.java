@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.pixbits.lib.io.archive.handles.Handle;
 import com.pixbits.lib.io.stream.SkippingInputStream;
+import com.pixbits.lib.io.stream.SkippingSignatureInputStream;
 
 public class SkipHeaderHandle extends WrapperStreamHandle
 {
@@ -33,7 +34,10 @@ public class SkipHeaderHandle extends WrapperStreamHandle
 
   @Override
   public InputStream getInputStream() throws IOException {
-    return new SkippingInputStream(handle.getInputStream(), rule.bytesToSkip);
+    if (rule.signature != null)
+      return new SkippingSignatureInputStream(handle.getInputStream(), rule.signature, rule.bytesToSkip);
+    else   
+      return new SkippingInputStream(handle.getInputStream(), rule.bytesToSkip);
   }
   
   @Override
