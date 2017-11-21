@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.github.jakz.romlib.data.game.Game;
@@ -53,4 +55,15 @@ public class CloneSet implements Iterable<GameClone>
   public Stream<GameClone> stream() { return Arrays.stream(clones); }
   
   public Map<String, String> attributes() { return attributes; }
+  
+  public boolean isConsistentTo(GameSet set)
+  {
+    Set<Game> games = set.stream().collect(Collectors.toSet());
+    
+    boolean sameAmountOfGames = set.gameCount() == cloneMap.size();
+    boolean hasOrphanGames = set.stream().anyMatch(game -> !cloneMap.containsKey(game));
+    boolean hasMissingGames = cloneMap.keySet().stream().anyMatch(game -> !games.contains(game));
+    
+    return sameAmountOfGames && !hasOrphanGames && !hasMissingGames;
+  }
 }

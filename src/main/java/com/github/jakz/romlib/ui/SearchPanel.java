@@ -15,7 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
+import com.github.jakz.romlib.data.game.Drawable;
 import com.github.jakz.romlib.data.game.Game;
+import com.github.jakz.romlib.data.game.GameClone;
 import com.github.jakz.romlib.data.game.RomSize;
 import com.github.jakz.romlib.data.set.Feature;
 import com.github.jakz.romlib.data.set.GameSet;
@@ -175,21 +177,36 @@ public class SearchPanel extends JPanel
 		active = true;
 	}
 	
-	public Predicate<Game> buildSearchPredicate()
+	public Predicate<Drawable> buildSearchPredicate()
 	{
-	  Predicate<Game> predicate = searcher != null ? searcher.search(freeSearchField.getText()) : g -> true;
+	  //TODO: ugly hack, we really must find a way to manage Game and GameClone objects in the same way
+	  Predicate<Drawable> predicate = d -> {
+	    if (d instanceof Game)
+	    {
+	      if (searcher != null)
+	        return searcher.search(freeSearchField.getText()).test((Game)d);
+	      else
+	        return true;
+	    }
+	    else if (d instanceof GameClone)
+	    {
+	      return true;
+	    }
+	    else
+	      return true;
+	  };
     
     Location location = locations.getItemAt(locations.getSelectedIndex());
     if (location != null)
-      predicate = predicate.and(r -> r.getLocation().is(location));
+      predicate = predicate.and(r -> r.getDrawableLocation().is(location));
     
     Language language = languages.getItemAt(languages.getSelectedIndex());
     if (language != null)
-      predicate = predicate.and(r -> r.getLanguages().includes(language));
-    
+      predicate = predicate.and(r -> r.getDrawableLanguages().includes(language));
+
     RomSize size = sizes.getItemAt(sizes.getSelectedIndex());
     if (size != null)
-      predicate = predicate.and(r -> r.getSizeInBytes() == size.bytes());
+      predicate = predicate.and(r -> !(r instanceof Game) || ((Game)r).getSizeInBytes() == size.bytes());
 	  
 	  return predicate;
 	}

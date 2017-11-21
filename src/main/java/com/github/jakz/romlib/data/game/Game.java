@@ -293,6 +293,7 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	
 	@Override public String getDrawableCaption() { return getTitle(); }
 	@Override public LocationSet getDrawableLocation() { return getLocation(); }
+	@Override public LanguageSet getDrawableLanguages() { return getLanguages(); }
   @Override public boolean getDrawableFavourite() { return isFavourite(); }
   @Override public GameStatus getDrawableStatus() { return getStatus(); }
   @Override public long getDrawableSize() { return getSizeInBytes(); }

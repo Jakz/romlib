@@ -11,6 +11,9 @@ public class GameSetStatus
   private int countIncomplete;
   private int countBadlyNamed;
   
+  private int countFoundRoms;
+  private int countMissingRoms;
+  
   private long foundSizeInBytes;
   private long actualSizeInBytes;
   
@@ -33,6 +36,9 @@ public class GameSetStatus
     foundSizeInBytes = 0;
     actualSizeInBytes = 0;
     
+    countFoundRoms = 0;
+    countMissingRoms = 0;
+    
     games.forEach(g -> {
       switch (g.getStatus())
       {
@@ -42,15 +48,21 @@ public class GameSetStatus
         case FOUND: ++countCorrect; break;
       }
       
-      g.stream().forEach(r -> {
+      g.stream().forEach(r -> {   
         if (r.isPresent())
         {
           foundSizeInBytes += r.size.bytes();
           actualSizeInBytes += r.handle().compressedSize();
+          ++countFoundRoms;
         }
+        else
+          ++countMissingRoms;
       });
     });
   }
+  
+  public int getFoundRomsCount() { return countFoundRoms; }
+  public int getMissingRomsCount() { return countMissingRoms; }
   
   public int getCorrectCount() { return countCorrect; }
   public int getNotFoundCount() { return countNotFound; }

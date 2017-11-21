@@ -12,6 +12,7 @@ public class GameClone implements Iterable<Game>, Drawable
   private final Game[] games;
   private final String[] names;
   private final LocationSet location;
+  private final LanguageSet languages;
   private final long size;
   int ordinal;
   
@@ -24,6 +25,7 @@ public class GameClone implements Iterable<Game>, Drawable
     this.names = null;
     this.location = new LocationSet();
     this.location.add(game.getLocation());
+    this.languages = new LanguageSet(game.getLanguages());
     this.status = GameStatus.MISSING;
     this.size = game.getSizeInBytes();
   }
@@ -35,6 +37,7 @@ public class GameClone implements Iterable<Game>, Drawable
     this.names = new String[Location.values().length];
     this.names[location.ordinal()] = name;
     this.location = new LocationSet(location);
+    this.languages = new LanguageSet(game.getLanguages());
     this.status = GameStatus.MISSING;
     this.size = game.getSizeInBytes();
 
@@ -47,6 +50,8 @@ public class GameClone implements Iterable<Game>, Drawable
     this.names = names;
     this.location = new LocationSet();
     games.stream().map(Game::getLocation).forEach(location::add);
+    this.languages = new LanguageSet();
+    games.stream().map(Game::getLanguages).forEach(languages::add);
     this.status = GameStatus.MISSING;
     this.size = games.stream().mapToLong(Game::getSizeInBytes).sum();
   }
@@ -131,6 +136,7 @@ public class GameClone implements Iterable<Game>, Drawable
   public Stream<Game> stream() { return Arrays.stream(games); }
   
   @Override public String getDrawableCaption() { return games[0].getNormalizedTitle() + " (" + foundCount + "/" + games.length + ")"; } //TODO: better management
+  @Override public LanguageSet getDrawableLanguages() { return languages; }
   @Override public LocationSet getDrawableLocation() { return location; }
   @Override public boolean getDrawableFavourite() { return false; }
   @Override public GameStatus getDrawableStatus() { return status; }

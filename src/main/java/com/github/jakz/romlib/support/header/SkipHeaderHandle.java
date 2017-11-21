@@ -35,7 +35,7 @@ public class SkipHeaderHandle extends WrapperStreamHandle
   @Override
   public InputStream getInputStream() throws IOException {
     if (rule.signature != null)
-      return new SkippingSignatureInputStream(handle.getInputStream(), rule.signature, rule.bytesToSkip);
+      return new SkippingSignatureInputStream(handle.getInputStream(), rule.signature, rule.signatureOffset, rule.bytesToSkip);
     else   
       return new SkippingInputStream(handle.getInputStream(), rule.bytesToSkip);
   }

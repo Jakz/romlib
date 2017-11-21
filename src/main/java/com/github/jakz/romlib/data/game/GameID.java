@@ -22,16 +22,16 @@ public interface GameID<T>
     public final long value;
     public CRC(long value) { this.value = value; }
     
-    public boolean equals(Object o) { return o instanceof CRC && ((CRC)o).value == value; }
-    public int hashCode() { return Long.hashCode(value); }
+    @Override public boolean equals(Object o) { return o instanceof CRC && ((CRC)o).value == value; }
+    @Override public int hashCode() { return Long.hashCode(value); }
   }
   
-  public static class MultipleCRC implements GameID<Long[]>
+  public static class MultipleCRC implements GameID<long[]>
   {
     public final long[] values;
     public MultipleCRC(long... values) { this.values = values; }
     
-    public boolean equals(Object o) { return o instanceof MultipleCRC && Arrays.equals(((MultipleCRC)o).values, values); }
-    public int hashCode() { return Objects.hash(values); }
+    @Override public boolean equals(Object o) { return o instanceof MultipleCRC && Arrays.equals(((MultipleCRC)o).values, values); }
+    @Override public int hashCode() { return Arrays.hashCode(values); }
   }
 }

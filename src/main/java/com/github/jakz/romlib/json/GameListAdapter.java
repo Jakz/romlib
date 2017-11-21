@@ -15,13 +15,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
+import com.pixbits.lib.exceptions.FatalErrorException;
 import com.pixbits.lib.functional.StreamUtil;
 
 public class GameListAdapter implements JsonSerializer<GameList>, JsonDeserializer<GameList>
 {
   GameList list;
   Map<GameID<?>, Game> gameMap;
-
+  
   public GameListAdapter(GameList list)
   {
     this.list = list;
@@ -31,6 +32,9 @@ public class GameListAdapter implements JsonSerializer<GameList>, JsonDeserializ
   {
     gameMap = list.stream()
       .collect(Collectors.toMap(g -> g.getID(), g -> g, (g1,g2) -> g1, () -> new HashMap<>()));
+
+    if (gameMap.size() != list.gameCount())
+      throw new FatalErrorException("computed GameID cache size is different from amount of games, something is wrong in GameID management");
   }
     
   @Override
@@ -54,6 +58,11 @@ public class GameListAdapter implements JsonSerializer<GameList>, JsonDeserializ
     for (GameSavedState prom : roms)
     {
       Game game = gameMap.get(prom.id);
+  
+      if (game == null)
+      {
+        game = list.stream().filter(g -> g.getID().equals(prom.id)).findAny().orElse(null);
+      }
       
       if (game != null)
       {

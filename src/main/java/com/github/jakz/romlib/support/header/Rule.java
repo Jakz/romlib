@@ -23,6 +23,11 @@ public class Rule
     return of(signature.getBytes(), bytesToSkip);
   }
   
+  public static Rule of(String signature, int offset, int bytesToSkip)
+  {
+    return new Rule(bytesToSkip, signature.getBytes(), offset);
+  }
+  
   public static Rule of(byte[] signature, int bytesToSkip)
   {
     return new Rule(bytesToSkip, signature, 0);
