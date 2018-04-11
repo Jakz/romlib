@@ -6,4 +6,6 @@ import com.github.jakz.romlib.data.game.Rom;
 public interface RomRenamer
 {
   String getNameForRom(Rom rom);
+  
+  public static RomRenamer DUMMY = r -> r.name;
 }

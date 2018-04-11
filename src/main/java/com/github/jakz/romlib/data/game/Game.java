@@ -19,6 +19,7 @@ import com.github.jakz.romlib.data.game.attributes.GameAttributeInterface;
 import com.github.jakz.romlib.data.game.attributes.GameInfo;
 import com.github.jakz.romlib.data.platforms.Platform;
 import com.github.jakz.romlib.data.set.GameSet;
+import com.github.jakz.romlib.data.set.GameSetFeatures;
 
 public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInterface, Drawable
 {
@@ -153,6 +154,12 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	  return true;
 	}
 	
+	public boolean isOrganized()
+	{
+	  GameSetFeatures helper = set.helper();
+	  return false;
+	}
+	
 	public void updateStatus()
 	{ 
 	  AtomicBoolean anyFound = new AtomicBoolean(false);
@@ -175,16 +182,6 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	  if (clone != null)
 	    clone.updateStatus();
 	}
-
-	public boolean isOrganized()
-	{
-   	//TODO: forced true because hasCorrectName and hasCorrectFolder throw exceptions forcibly
-	  if (true)
-	    return true;
-
-	  boolean name = hasCorrectName(), folder = hasCorrectFolder();
-	  return true || (name && folder); 
-	}
   
   public String getCorrectName()
   { 
@@ -202,41 +199,7 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
     /*FolderPlugin mover = set.getSettings().getFolderOrganizer();
     return mover.getFolderForRom(this);*/
   }
-  
-  public boolean hasCorrectName()
-  {     
-    throw new UnsupportedOperationException("Must be reimplemented");
-
-    /* TODO
     
-    Settings settings = set.getSettings();
-    
-    boolean hasCorrectName = getCorrectName().equals(handle.plainName());
-    
-    if (!settings.shouldRenameInternalName)
-      return hasCorrectName;
-    else
-      return hasCorrectName && hasCorrectInternalName();
-      */
-  }
-  
-  public boolean hasCorrectFolder()
-  {
-    throw new UnsupportedOperationException("Must be reimplemented");
-
-    /* TODO
-    
-    try {
-      return set.getSettings().getFolderOrganizer() == null || 
-        Files.isSameFile(handle.path().getParent(), set.getSettings().romsPath.resolve(getCorrectFolder()));
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-      return false;
-    }*/
-  }
-  
   public boolean hasMultipleRoms() { return roms.length > 1; }
   public boolean hasAnyRom() { return stream().anyMatch(Rom::isPresent); }
   public boolean isComplete() { return stream().allMatch(Rom::isPresent); }
