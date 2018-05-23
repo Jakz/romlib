@@ -35,7 +35,8 @@ public class RomSize implements Comparable<RomSize>
 	
 	public static enum Unit
 	{
-	  KILOBYTE(1L << 10, "KByte", "KB", null),
+	  BYTE(1L, "Byte", " bytes", null),
+	  KILOBYTE(1L << 10, "KByte", "KB", BYTE),
 	  MEGABYTE(1L << 20, "MByte", "MB", KILOBYTE),
     GIGABYTE(1L << 30, "GByte", "GB", MEGABYTE),
     TERABYTE(1L << 40, "TByte", "TB", GIGABYTE),

@@ -26,8 +26,11 @@ public enum Platforms implements Platform
   WS("ws", "WonderSwan", new String[] {"ws"}, Icon.SYSTEM_WONDERSWAN),
   GG("gg", "Game Gear", new String[] {"gg"}, Icon.SYSTEM_GAME_GEAR),
   C64("c64", "Commodore 64", null, Icon.SYSTEM_COMMODORE_64),
+
+  NGP("ngp", "Neo-Geo Pocket", new String[] {"ngp"}, Icon.SYSTEM_NEO_GEO_POCKET),
   
-  NGP("ngp", "Neo-Geo Pocket", new String[] {"ngp"}, Icon.SYSTEM_NEO_GEO_POCKET)
+  IBM_PC("pc", "PC", new String[] { "bin" })
+  
   ;
   
   public final String tag;

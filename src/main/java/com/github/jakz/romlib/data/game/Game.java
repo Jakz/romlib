@@ -248,7 +248,7 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	public boolean isFavourite() { return favourite; }
 	public void setFavourite(boolean value) { favourite = value; }
 	
-	@Override public String getDrawableCaption() { return getTitle(); }
+	@Override public String getDrawableCaption() { return set.helper().renamer().getNameForGame(this); /* getTitle(); */ }
 	@Override public LocationSet getDrawableLocation() { return getLocation(); }
 	@Override public LanguageSet getDrawableLanguages() { return getLanguages(); }
   @Override public boolean getDrawableFavourite() { return isFavourite(); }

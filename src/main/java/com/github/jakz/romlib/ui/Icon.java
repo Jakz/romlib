@@ -31,6 +31,7 @@ public enum Icon
   FLAG_SWEDEN("flag_sweden"),
   FLAG_TAIWAN("flag_taiwan"),
   FLAG_TURKEY("flag_turkey"),
+  FLAG_UKRAINE("flag_ukraine"),
   FLAG_UNITED_KINGDOM("flag_united_kingdom"),
   FLAG_USA("flag_usa"),
   FLAG_USA_EUROPE("flag_usa_europe"),

@@ -3,6 +3,8 @@ package com.github.jakz.romlib.data.set;
 import java.util.Optional;
 import java.util.function.Function;
 
+import com.github.jakz.romlib.data.cataloguers.CloneSetCreator;
+import com.github.jakz.romlib.data.cataloguers.GameAggregator;
 import com.github.jakz.romlib.data.cataloguers.GameCataloguer;
 import com.github.jakz.romlib.data.cataloguers.TitleNormalizer;
 import com.github.jakz.romlib.data.game.Game;
@@ -53,6 +55,44 @@ public interface DataSupplier
         }));
         cataloguer.done();
         return data;
+      }
+      
+      @Override public DatFormat getFormat() { return supplier.getFormat(); }
+    };
+  }
+  
+  public static DataSupplier derive(final DataSupplier supplier, final CloneSetCreator cloneSetCreator)
+  {
+    return new DataSupplier()
+    {
+      @Override public Data load(GameSet set)
+      {
+        Data data = supplier.load(set);
+        if (data.games.isPresent())
+        {
+          CloneSet cloneSet = cloneSetCreator.generate(data.games.get());    
+          return new Data(data.games.orElse(null), cloneSet, data.provider.orElse(null));
+        }
+        
+        return data;
+      }
+      
+      @Override public DatFormat getFormat() { return supplier.getFormat(); }
+    };
+  }
+  
+  public static DataSupplier derive(final DataSupplier supplier, final GameAggregator aggregator)
+  {
+    return new DataSupplier()
+    {
+      @Override public Data load(GameSet set)
+      {
+        Data data = supplier.load(set);
+        
+        if (data.games.isPresent())
+          return new Data(aggregator.aggregate(data.games.get()), data.clones.orElse(null), data.provider.orElse(null));
+        else        
+          return data;
       }
       
       @Override public DatFormat getFormat() { return supplier.getFormat(); }

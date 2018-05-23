@@ -1,4 +1,4 @@
-package com.github.jakz.romlib.data.cataloguers;
+package com.github.jakz.romlib.data.cataloguers.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +14,8 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.github.jakz.romlib.data.cataloguers.GameCataloguer;
+import com.github.jakz.romlib.data.cataloguers.LambdaCataloguer;
 import com.github.jakz.romlib.data.game.Date;
 import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.Language;
@@ -64,6 +66,8 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("Taiwan", game -> game.getLocation().add(Location.TAIWAN));
     mappers.put("Hong Kong", game -> game.getLocation().add(Location.HONG_KONG));
     mappers.put("Greece", game -> game.getLocation().add(Location.GREECE));
+    mappers.put("Hungary", game -> game.getLocation().add(Location.HUNGARY));
+    mappers.put("Ukraine", game -> game.getLocation().add(Location.UKRAINE));
     mappers.put("Unknown", game -> {}); // maybe a Location.UNKNOWN should be used?
 
     mappers.put("En", game -> game.getLanguages().add(Language.ENGLISH));

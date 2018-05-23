@@ -34,7 +34,16 @@ public class GameListAdapter implements JsonSerializer<GameList>, JsonDeserializ
       .collect(Collectors.toMap(g -> g.getID(), g -> g, (g1,g2) -> g1, () -> new HashMap<>()));
 
     if (gameMap.size() != list.gameCount())
-      throw new FatalErrorException("computed GameID cache size is different from amount of games, something is wrong in GameID management");
+    {
+      Map<GameID<?>, List<Game>> verify = list.stream().collect(Collectors.groupingBy(Game::getID));
+      verify.values().stream().filter(l -> l.size() > 1).forEach(l -> {
+        throw new FatalErrorException("game %s and %s have same GameID", l.get(0), l.get(1));
+
+      });
+      
+      throw new FatalErrorException("computed GameID cache size is different from amount of games (%d != %d), something is wrong in GameID management", gameMap.size(), list.gameCount());
+
+    }
   }
     
   @Override

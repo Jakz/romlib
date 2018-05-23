@@ -26,6 +26,7 @@ public enum Language
   CROATIAN("Croatian", "HR", Icon.FLAG_CROATIA),
   HUNGARIAN("Hungarian", "HU", Icon.FLAG_HUNGARY),
   TURKISH("Turkish", "TR", Icon.FLAG_TURKEY),
+  UKRAINIAN("Ukrainian", "UK", Icon.FLAG_UKRAINE),
   
   ENGLISH_EU("English (EU)", "EN", Icon.FLAG_UNITED_KINGDOM),
 	ENGLISH_UK("English (UK)", "EN", Icon.FLAG_UNITED_KINGDOM),
