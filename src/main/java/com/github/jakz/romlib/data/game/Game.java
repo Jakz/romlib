@@ -107,13 +107,16 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	public GameID<?> getID()
 	{ 
 	  // TODO: find a generic way
-	  if (!hasMultipleRoms())
-	    return new GameID.CRC(roms[0].crc());
+	  /*if (!hasMultipleRoms())
+	    return new GameID.SizeAndCRC(roms[0].size(), roms[0].crc());
 	  else
 	  {
 	    long[] crcs = Arrays.stream(roms).mapToLong(Rom::crc).toArray();
 	    return new GameID.MultipleCRC(crcs);
-	  }
+	  }*/
+	  
+    Rom.Hash[] hashes = Arrays.stream(roms).map(Rom::hash).toArray(i -> new Rom.Hash[i]);
+	  return new GameID.MagicHash(hashes);
 	  
 	  //  throw new UnsupportedOperationException("no GameID generator for sets with multiple roms per game");
 	}

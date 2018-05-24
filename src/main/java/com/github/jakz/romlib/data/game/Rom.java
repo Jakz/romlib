@@ -10,12 +10,40 @@ import com.pixbits.lib.lang.StringUtils;
 
 public class Rom implements Verifiable
 {
-  public final String name;
+  public class Hash
+  {
+    byte[] md5;
+    byte[] sha1;
+    long crc32;
+    RomSize size;
+    
+    public Hash(RomSize size, long crc32, byte[] md5, byte[] sha1)
+    {
+      this.size = size;
+      this.crc32 = crc32;
+      this.md5 = md5;
+      this.sha1 = sha1;
+    }
+    
+    public boolean isEquivalent(Hash o)
+    {
+      return 
+          o.size.equals(o.size) && 
+          crc32 == o.crc32 && 
+          (md5 == null || o.md5 == null || Arrays.equals(md5,o.md5)) && 
+          (sha1 == null || o.sha1 == null || Arrays.equals(sha1,o.sha1));
+    }
+    
+    public boolean equals(Object o) { return (o instanceof Hash) && ((Hash)o).isEquivalent(this); }
+    public int hashCode() { return (int)crc32; }
+    
+    public long crc() { return crc32; }
+    public long size() { return size.bytes(); }
+  }
   
-  public final byte[] md5;
-  public final byte[] sha1;
-  public final long crc32;
-  public final RomSize size;
+  
+  public final String name;
+  public final Hash hash;
   
   private Game game;
   private Handle handle;
@@ -38,10 +66,7 @@ public class Rom implements Verifiable
   public Rom(String name, RomSize size, long crc32, byte[] md5, byte[] sha1)
   {
     this.name = name;
-    this.size = size;
-    this.crc32 = crc32;
-    this.md5 = md5;
-    this.sha1 = sha1;
+    this.hash = new Hash(size, crc32, md5, sha1);
     this.handle = null;
   }
   
@@ -61,11 +86,11 @@ public class Rom implements Verifiable
     StringBuilder builder = new StringBuilder();
 
     builder.delete(0, builder.length());
-    builder.append("[").append(name).append(", size: ").append(size).append(", crc: ").append(Long.toHexString(crc32));
-    if (md5 != null)
-      builder.append(", md5: ").append(StringUtils.toHexString(md5));
-    if (sha1 != null)
-      builder.append(", sha1: ").append(StringUtils.toHexString(sha1));
+    builder.append("[").append(name).append(", size: ").append(hash.size).append(", crc: ").append(Long.toHexString(hash.crc32));
+    if (hash.md5 != null)
+      builder.append(", md5: ").append(StringUtils.toHexString(hash.md5));
+    if (hash.sha1 != null)
+      builder.append(", sha1: ").append(StringUtils.toHexString(hash.sha1));
     builder.append("]");
     
     return builder.toString();
@@ -76,8 +101,11 @@ public class Rom implements Verifiable
  
   public boolean isEquivalent(Rom rom)
   {
-    return size.equals(rom.size) && crc32 == rom.crc32 && (md5 == null || rom.md5 == null || Arrays.equals(md5,rom.md5)) && (sha1 == null || rom.sha1 == null || Arrays.equals(sha1,rom.sha1));
+    return rom.hash.isEquivalent(this.hash);
   }
+  
+  //@Override public boolean equals(Object o) { return o instanceof Rom && ((Rom)o).isEquivalent(this); }
+  //@Override public int hashCode() { return (int)crc32; }
   
   @SuppressWarnings("unchecked")
   public <T> T getAttribute(RomAttribute attribute)
@@ -85,16 +113,18 @@ public class Rom implements Verifiable
     switch (attribute)
     {
       case ROM_NAME: return (T)name;
-      case SIZE: return (T)size;
-      case SHA1: return (T)sha1;
-      case MD5: return (T)md5;
-      case CRC: return (T)(Long)crc32;
+      case SIZE: return (T)hash.size;
+      case SHA1: return (T)hash.sha1;
+      case MD5: return (T)hash.md5;
+      case CRC: return (T)(Long)hash.crc32;
       default: return null;
     }
   }
     
-  @Override public long size() { return size.bytes(); }
-  @Override public long crc() { return crc32; }
-  @Override public byte[] sha1() { return sha1; }
-  @Override public byte[] md5() { return md5; }  
+  @Override public long size() { return hash.size.bytes(); }
+  @Override public long crc() { return hash.crc32; }
+  @Override public byte[] sha1() { return hash.sha1; }
+  @Override public byte[] md5() { return hash.md5; }  
+  
+  public Hash hash() { return hash; }
 }

@@ -28,6 +28,7 @@ import com.github.jakz.romlib.data.platforms.GBC;
 public class NoIntroCataloguer implements GameCataloguer
 {
   private static final Map<String, Consumer<Game>> mappers;
+
   private static final List<LambdaCataloguer> lambdas;
 
   static
@@ -98,11 +99,12 @@ public class NoIntroCataloguer implements GameCataloguer
     /* TODO: verify that settng the version doesn't override another one in case
      * of multiple versions. Actually maybe it would be better to manage version
      * as List<Version>
-     */
+     */    
     mappers.put("Demo", game -> game.setVersion(Version.DEMO));
     mappers.put("Sample", game -> game.setVersion(Version.SAMPLE));
     mappers.put("Proto", game -> game.setVersion(Version.PROTO));
     mappers.put("Promo", game -> game.setVersion(Version.PROMO));
+    mappers.put("Rerelease", game -> game.setVersion(Version.RERELEASE));
     
     mappers.put("Unl", game -> game.setLicensed(false));
     

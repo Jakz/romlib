@@ -37,7 +37,7 @@ public class GameListAdapter implements JsonSerializer<GameList>, JsonDeserializ
     {
       Map<GameID<?>, List<Game>> verify = list.stream().collect(Collectors.groupingBy(Game::getID));
       verify.values().stream().filter(l -> l.size() > 1).forEach(l -> {
-        throw new FatalErrorException("game %s and %s have same GameID", l.get(0), l.get(1));
+        throw new FatalErrorException("game %s and %s have same GameID: %s", l.get(0), l.get(1), l.get(0).getID());
 
       });
       

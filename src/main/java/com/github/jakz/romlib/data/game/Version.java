@@ -28,6 +28,11 @@ public interface Version
     @Override public String toString() { return "Promo"; }
   };
   
+  public final static Version RERELEASE = new Version() {
+    @Override public boolean equals(Object obj) { return obj == this; }
+    @Override public String toString() { return "Rerelease"; }
+  };
+  
   public final static Version UNSPECIFIED = new Version() {
     @Override public boolean equals(Object obj) { return obj == this; }
     @Override public String toString() { return "N/A"; }

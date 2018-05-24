@@ -3,31 +3,69 @@ package com.github.jakz.romlib.json;
 import java.lang.reflect.Type;
 
 import com.github.jakz.romlib.data.game.GameID;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;;
+import com.google.gson.JsonSerializer;
+import com.pixbits.lib.lang.StringUtils;;
 
 public class GameIdAdapter implements JsonSerializer<GameID<?>>, JsonDeserializer<GameID<?>> {
   @Override
   public JsonElement serialize(GameID<?> src, Type type, JsonSerializationContext context)
-  {
+  { 
     if (src instanceof GameID.CRC)
       return context.serialize(((GameID.CRC)src).value);
-    else if (src instanceof GameID.MultipleCRC)
-      return context.serialize(((GameID.MultipleCRC)src).values);
+    else if (src instanceof GameID.MagicHash)
+      return context.serialize(StringUtils.toHexString(((GameID.MagicHash)src).value));
     else
-      throw new JsonParseException("No way to serialize GameID<?> " + src);
+    {
+      JsonArray a = new JsonArray();
+
+      if (src instanceof GameID.SizeAndCRC)
+      {
+        a.add("size-crc");
+        a.add(((GameID.SizeAndCRC)src).value);
+      }
+      else if (src instanceof GameID.MultipleCRC)
+      {
+        a.add("multiple-crc");
+        a.add(context.serialize(((GameID.MultipleCRC)src).values));
+      }
+      else
+        throw new JsonParseException("No way to serialize GameID<?> " + src);
+    
+      return a;
+    }
   }
   
   @Override
   public GameID<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context)
   {
-    if (json.isJsonArray())
-      return new GameID.MultipleCRC(context.deserialize(json, long[].class));
+    if (json.isJsonPrimitive())
+    {
+      JsonPrimitive pj = json.getAsJsonPrimitive();
+      
+      if (pj.isNumber())
+        return new GameID.CRC(context.deserialize(pj, Long.class));
+      else if (pj.isString())
+        return new GameID.MagicHash((String)context.deserialize(pj, String.class));
+    }
     else
-      return new GameID.CRC(context.deserialize(json, Long.class));
+    {
+      JsonArray j = json.getAsJsonArray();
+      String jtype = j.get(0).getAsString();
+      
+      if (jtype.equals("size-crc"))
+        return new GameID.SizeAndCRC(j.get(1).getAsLong());
+      else if (jtype.equals("multiple-crc"))
+        return new GameID.MultipleCRC(context.deserialize(j.get(1), long[].class));
+    }
+    
+    throw new JsonParseException("No way to unserialize GameID<?>");
   }
 }

@@ -51,7 +51,7 @@ public class GameSetStatus
       g.stream().forEach(r -> {   
         if (r.isPresent())
         {
-          foundSizeInBytes += r.size.bytes();
+          foundSizeInBytes += r.size();
           actualSizeInBytes += r.handle().compressedSize();
           ++countFoundRoms;
         }
