@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 public enum Icon
 {
   FLAG_AUSTRALIA("flag_australia"),
+  FLAG_BELGIUM("flag_belgium"),
   FLAG_BRAZIL("flag_brazil"),
   FLAG_CANADA("flag_canada"),
   FLAG_CHINA("flag_china"),
@@ -27,6 +28,9 @@ public enum Icon
   FLAG_POLAND("flag_poland"),
   FLAG_PORTUGAL("flag_portugal"),
   FLAG_RUSSIA("flag_russia"),
+  FLAG_SINGAPORE("flag_singapore"),
+  FLAG_SLOVAKIA("flag_slovakia"),
+  FLAG_SLOVENIA("flag_slovenia"),
   FLAG_SPAIN("flag_spain"),
   FLAG_SWEDEN("flag_sweden"),
   FLAG_TAIWAN("flag_taiwan"),
@@ -34,6 +38,7 @@ public enum Icon
   FLAG_UKRAINE("flag_ukraine"),
   FLAG_UNITED_KINGDOM("flag_united_kingdom"),
   FLAG_USA("flag_usa"),
+  FLAG_SCANDINAVIA("flag_scandinavia"),
   FLAG_USA_EUROPE("flag_usa_europe"),
   FLAG_JAPAN_USA("flag_japan_usa"),
   FLAG_WORLD("flag_usa"),

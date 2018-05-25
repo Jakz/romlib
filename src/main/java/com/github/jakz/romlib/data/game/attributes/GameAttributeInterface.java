@@ -5,6 +5,7 @@ import com.github.jakz.romlib.data.game.LanguageSet;
 import com.github.jakz.romlib.data.game.LocationSet;
 import com.github.jakz.romlib.data.game.RomSize;
 import com.github.jakz.romlib.data.game.Version;
+import com.github.jakz.romlib.data.game.VersionNumber;
 import com.github.jakz.romlib.data.game.VideoFormat;
 
 public interface GameAttributeInterface
@@ -43,9 +44,12 @@ public interface GameAttributeInterface
   default RomSize getSize() { return getAttribute(GameAttribute.SIZE); }
   default LocationSet getLocation() { return getAttribute(GameAttribute.LOCATION); }
   default LanguageSet getLanguages() { return getAttribute(GameAttribute.LANGUAGE); }
-  
+    
   default void setVersion(Version version) { setAttribute(GameAttribute.VERSION, version); }
   default Version getVersion() { return getAttribute(GameAttribute.VERSION); }
+  
+  default void setVersionNumber(VersionNumber versionNumber) { setAttribute(GameAttribute.VERSION_NUMBER, versionNumber); }
+  default VersionNumber getVersionNumber() { return getAttribute(GameAttribute.VERSION_NUMBER); }
    
   default void setComment(String comment) { setAttribute(GameAttribute.COMMENT, comment); }
   default String getComment() { return getAttribute(GameAttribute.COMMENT); }

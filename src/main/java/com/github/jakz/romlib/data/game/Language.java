@@ -27,6 +27,8 @@ public enum Language
   HUNGARIAN("Hungarian", "HU", Icon.FLAG_HUNGARY),
   TURKISH("Turkish", "TR", Icon.FLAG_TURKEY),
   UKRAINIAN("Ukrainian", "UK", Icon.FLAG_UKRAINE),
+  SLOVENE("Slovene", "SL", Icon.FLAG_SLOVENIA),
+  SLOVAK("Slovak", "SK", Icon.FLAG_SLOVAKIA),
   
   ENGLISH_EU("English (EU)", "EN", Icon.FLAG_UNITED_KINGDOM),
 	ENGLISH_UK("English (UK)", "EN", Icon.FLAG_UNITED_KINGDOM),

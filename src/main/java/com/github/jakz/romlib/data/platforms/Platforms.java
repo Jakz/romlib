@@ -21,6 +21,7 @@ public enum Platforms implements Platform
 
   LYNX("lynx", "Atary Lynx", new String[] { "lnx" }),
   
+  PS2("ps2", "Sony Playstation 2", new String[] { "bin", "iso" }),
   PSP("psp", "Sony Playstation Portable", new String[] { "iso", "cso" }),
   
   WS("ws", "WonderSwan", new String[] {"ws"}, Icon.SYSTEM_WONDERSWAN),

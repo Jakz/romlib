@@ -38,33 +38,15 @@ public interface Version
     @Override public String toString() { return "N/A"; }
   };
   
-  public static class Numbered implements Version
+  public final class Alternative implements Version
   {
-    private final int major;
-    private final String minor;
-    private final String suffix;
+    private final int revision;
     
-    public Numbered(int major, String minor, String suffix)
-    {
-      this.major = major;
-      this.minor = minor;
-      this.suffix = suffix;
-    }
+    public Alternative(int revision) { this.revision = revision; }
+    public Alternative() { this(0); }
     
-    public Numbered(int major, String minor)
-    {
-      this(major, minor, "");
-    }
-    
-    public Numbered(int major, int minor)
-    {
-      this(major, Integer.toString(minor), "");
-    }
-    
-    public int getMajor() { return major; }
-    public String getMinor() { return minor; }
-    public String getSuffix() { return suffix; }
-    public String toString() { return major + "." + minor + suffix; }
+    @Override public boolean equals(Object obj) { return obj == this; }
+    @Override public String toString() { return revision == 0 ? "Alternative" : ("Alternative" + revision); }
   }
   
   public final class Beta implements Version

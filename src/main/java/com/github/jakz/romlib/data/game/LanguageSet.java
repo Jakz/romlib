@@ -1,5 +1,6 @@
 package com.github.jakz.romlib.data.game;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -19,9 +20,15 @@ public class LanguageSet implements Iterable<Language>
     languages = new TreeSet<>(other.languages);
   }
   
+  public LanguageSet(Language... languages)
+  {
+    this.languages = new TreeSet<>(Arrays.asList(languages));
+  }
+  
   public boolean empty() { return languages.isEmpty(); }
   public int size() { return languages.size(); }
   public void add(Language language) { languages.add(language); }
+  public void add(Language... languages) { this.languages.addAll(Arrays.asList(languages)); }
   public void add(LanguageSet set) { languages.addAll(set.languages); } 
   
   public boolean includes(Language language) { return languages.contains(language); }

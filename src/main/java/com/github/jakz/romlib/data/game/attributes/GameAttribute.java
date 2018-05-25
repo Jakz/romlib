@@ -48,6 +48,7 @@ public enum GameAttribute implements Attribute
   VIDEO_FORMAT(VideoFormat.class, Text.ROM_INFO_VIDEO_FORMAT),
   
   VERSION(Text.ROM_INFO_VERSION),
+  VERSION_NUMBER(Text.GAME_INFO_VERSION_NUMBER),
   
   LICENSED(Text.ROM_INFO_LICENSED),
   BAD_DUMP(Text.GAME_INFO_BAD_DUMP),
