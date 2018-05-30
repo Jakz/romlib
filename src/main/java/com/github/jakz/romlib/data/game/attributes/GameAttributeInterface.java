@@ -1,5 +1,7 @@
 package com.github.jakz.romlib.data.game.attributes;
 
+import java.util.function.Supplier;
+
 import com.github.jakz.romlib.data.game.Drawable;
 import com.github.jakz.romlib.data.game.LanguageSet;
 import com.github.jakz.romlib.data.game.LocationSet;
@@ -36,6 +38,19 @@ public interface GameAttributeInterface
   {
     Boolean b = getAttribute(key);
     return b != null && b;
+  }
+  
+  default <T> T getOrComputeAttribute(Attribute key, Supplier<T> supplier)
+  {
+    T attribute = getAttribute(key);
+    
+    if (attribute == null)
+    {
+      attribute = supplier.get();
+      setAttribute(key, attribute);
+    }
+        
+    return attribute;
   }
   
   default void setDescription(String description) { setAttribute(GameAttribute.DESCRIPTION, description); }

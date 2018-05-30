@@ -7,6 +7,7 @@ import com.github.jakz.romlib.data.game.VideoFormat;
 
 import java.util.Arrays;
 
+import com.github.jakz.romlib.data.game.Edition;
 import com.github.jakz.romlib.data.game.Genre;
 import com.github.jakz.romlib.data.game.Language;
 import com.github.jakz.romlib.data.game.LanguageSet;
@@ -23,6 +24,7 @@ public enum GameAttribute implements Attribute
   DESCRIPTION(String.class, Text.ROM_INFO_DESCRIPTION),
   PUBLISHER(Text.ROM_INFO_PUBLISHER),
   GROUP(Text.ROM_INFO_GROUP),
+  RELEASE_DATE(Text.GAME_INFO_RELEASE_DATE),
   DATE(Text.ROM_INFO_DUMP_DATE),
   COMMENT(String.class, Text.ROM_INFO_COMMENT),
   LOCATION(Text.ROM_INFO_LOCATION),
@@ -46,6 +48,8 @@ public enum GameAttribute implements Attribute
   EXPORT_TITLE(String.class, Text.GAME_INFO_EXPORT_TITLE),
   
   VIDEO_FORMAT(VideoFormat.class, Text.ROM_INFO_VIDEO_FORMAT),
+  
+  EDITION(Edition.Set.class, Text.GAME_INFO_EDITION),
   
   VERSION(Text.ROM_INFO_VERSION),
   VERSION_NUMBER(Text.GAME_INFO_VERSION_NUMBER),
@@ -77,7 +81,7 @@ public enum GameAttribute implements Attribute
   public String prettyValue(Object value) { return value != null ? value.toString() : null; }
 
   @Override
-  public Class<?> getClazz() { return clazz; }
+  public Class<?> getType() { return clazz; }
 
   @Override
   public String getCaption() { return caption.text(); }

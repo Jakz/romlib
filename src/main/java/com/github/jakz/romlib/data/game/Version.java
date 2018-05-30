@@ -7,6 +7,11 @@ public interface Version
     @Override public String toString() { return "Proper"; }
   };
   
+  public final static Version OEM = new Version() {
+    @Override public boolean equals(Object obj) { return obj == this; }
+    @Override public String toString() { return "OEM"; }
+  };
+  
   public final static Version SAMPLE = new Version() {
     @Override public boolean equals(Object obj) { return obj == this; }
     @Override public String toString() { return "Sample"; }
@@ -37,6 +42,20 @@ public interface Version
     @Override public boolean equals(Object obj) { return obj == this; }
     @Override public String toString() { return "N/A"; }
   };
+  
+  public final class Custom implements Version
+  {
+    private final String value;
+    
+    public Custom(String value) { this.value = value; }
+    
+    @Override public boolean equals(Object obj)
+    { 
+      return (obj instanceof Custom) && ((Custom)obj).value.equals(value);
+    }
+    
+    @Override public String toString() { return value; }
+  } 
   
   public final class Alternative implements Version
   {

@@ -22,4 +22,17 @@ public class Date
   {
     this(year, -1, -1);
   }
+  
+  public String toString()
+  {
+    if (month == -1 && day == -1)
+      return Integer.toString(year);
+    else if (month != -1 && day == -1)
+      return String.format("%d-%02d", year, month);
+    else
+      return String.format("%d-%02d-%02d", year, month, day);
+  }
+  
+  
+  public static Date ofYear(int year) { return new Date(year); }
 }

@@ -11,9 +11,11 @@ import java.util.function.Supplier;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
+import com.github.jakz.romlib.data.game.Date;
 import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.Rom;
 import com.github.jakz.romlib.data.game.RomSize;
+import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 import com.github.jakz.romlib.data.set.DataSupplier;
 import com.github.jakz.romlib.data.set.Feature;
 import com.github.jakz.romlib.data.set.GameList;
@@ -47,6 +49,8 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
   Game game;
   String gameName;
   String gameDescription;
+  String gameComment;
+  Date gameYear;
   
   List<Rom> roms;
   String romName;
@@ -114,16 +118,35 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
       switch (name)
       {
         case "description": gameDescription = asString(); break;
+        case "comment": gameComment = asString(); break;
+        case "year": gameYear = Date.ofYear(asInt()); break;
         case "game":
         {
           game = gameFactory.get();
           
           game.setRom(roms.toArray(new Rom[roms.size()]));
-          game.setTitle(gameName);
-          game.setDescription(gameDescription);
+          
+          if (gameName != null)
+            game.setTitle(gameName);
+          
+          if (gameDescription != null)
+            game.setDescription(gameDescription);
+          
+          if (gameComment != null)
+            game.setComment(gameComment);
+          
+          if (gameYear != null)
+            game.setAttribute(GameAttribute.RELEASE_DATE, gameYear);
+          
           games.add(game); 
           
           game = null; 
+          
+          gameDescription = null;
+          gameName = null;
+          gameComment = null;
+          gameYear = null;
+          
           roms.clear();;
           break;
         }

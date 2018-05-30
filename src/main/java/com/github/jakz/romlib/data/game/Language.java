@@ -35,6 +35,8 @@ public enum Language
 	PORTUGUESE_BR("Portuguese (BR)", "PT", Icon.FLAG_BRAZIL),
 	KOREAN("Korean", "KO", Icon.FLAG_KOREA),
 	RUSSIAN("Russian", "RU", Icon.FLAG_RUSSIA),
+	HEBREW("Hebrew", "HE", "HEB", Icon.FLAG_ISRAEL),
+	THAI("Thai", "TH", "THA", Icon.FLAG_THAILAND),
   HINDI("Hindi", "HI", Icon.FLAG_INDIA),
   CZECH("Czech", "CS", Icon.FLAG_CZECH_REPUBLIC)
   
@@ -42,6 +44,7 @@ public enum Language
 	
 	public final String fullName;
 	public final String iso639_1;
+	public final String iso639_2;
 	public final Icon icon;
 	
 	
@@ -55,11 +58,18 @@ public enum Language
 		}
 	}
 	
-	Language(String name, String iso639_1, Icon icon)
+	Language(String name, String iso639_1, String iso639_2, Icon icon)
 	{
     this.fullName = name;
     this.iso639_1 = iso639_1;
+    this.iso639_2 = iso639_2;
+
 	  this.icon = icon;
+	}
+	
+	Language(String name, String iso639_1, Icon icon)
+	{
+	  this(name, iso639_1, "", icon);
 	}
 	
 	Language(String name, String iso639_1)

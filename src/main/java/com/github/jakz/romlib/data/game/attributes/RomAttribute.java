@@ -62,7 +62,7 @@ public enum RomAttribute implements Attribute
   public String prettyValue(Object value) { return value != null ? value.toString() : null; }
 
   @Override
-  public Class<?> getClazz() { return clazz; }
+  public Class<?> getType() { return clazz; }
 
   @Override
   public String getCaption() { return caption.text(); } 

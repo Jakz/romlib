@@ -23,7 +23,7 @@ public class CustomGameAttribute implements Attribute
   }
   
   @Override public String prettyValue(Object value) { return value.toString(); }
-  @Override public Class<?> getClazz() { return clazz; }
+  @Override public Class<?> getType() { return clazz; }
   @Override public String getCaption() { return caption; }
   @Override public String getIdent() { return identifier; }
   

@@ -7,13 +7,13 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import com.github.jakz.romlib.data.cataloguers.GameAggregator;
+import com.github.jakz.romlib.data.cataloguers.GameListTransformer;
 import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.Rom;
 import com.github.jakz.romlib.data.set.GameList;
 import com.pixbits.lib.lang.Pair;
 
-public class RedumpAggregatorByDisks implements GameAggregator
+public class RedumpAggregatorByDisks implements GameListTransformer
 {
   private String trimDiskTokenFromName(String title)
   {
@@ -24,7 +24,7 @@ public class RedumpAggregatorByDisks implements GameAggregator
   
   
   @Override
-  public GameList aggregate(GameList list)
+  public GameList transform(GameList list)
   {
     List<Game> single = new ArrayList<>();
     Map<String, Pair<Game, List<Rom>>> multiple = new HashMap<>();

@@ -19,15 +19,20 @@ public class GameClone implements Iterable<Game>, Drawable
   private int foundCount;
   private GameStatus status;
   
-  public GameClone(Game game)
+  public GameClone(Game game, String name)
   {
     this.games = new Game[] { game };
-    this.names = null;
+    this.names = name != null ? new String[] { name } : null;
     this.location = new LocationSet();
     this.location.add(game.getLocation());
     this.languages = new LanguageSet(game.getLanguages());
     this.status = GameStatus.MISSING;
     this.size = game.getSizeInBytes();
+  }
+  
+  public GameClone(Game game)
+  {
+    this(game, null);
   }
   
   public GameClone(Game game, Location location, String name)
@@ -59,6 +64,11 @@ public class GameClone implements Iterable<Game>, Drawable
   public GameClone(Collection<Game> games)
   {
     this(games, null);
+  }
+  
+  public GameClone(String name, Collection<Game> games)
+  {
+    this(games, new String[] { name });
   }
   
   public String getTitleForBias(BiasSet bias, boolean acceptFallback)
@@ -135,7 +145,11 @@ public class GameClone implements Iterable<Game>, Drawable
   public Iterator<Game> iterator() { return Arrays.asList(games).iterator(); }
   public Stream<Game> stream() { return Arrays.stream(games); }
   
-  @Override public String getDrawableCaption() { return games[0].getNormalizedTitle() + " (" + foundCount + "/" + games.length + ")"; } //TODO: better management
+  @Override public String getDrawableCaption() 
+  { 
+    String base = names != null && names.length > 0 ? names[0] : games[0].getNormalizedTitle();
+    return base + " (" + foundCount + "/" + games.length + ")";
+  } 
   @Override public LanguageSet getDrawableLanguages() { return languages; }
   @Override public LocationSet getDrawableLocation() { return location; }
   @Override public boolean getDrawableFavourite() { return false; }

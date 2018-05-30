@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import com.github.jakz.romlib.data.cataloguers.CloneSetCreator;
-import com.github.jakz.romlib.data.cataloguers.GameAggregator;
+import com.github.jakz.romlib.data.cataloguers.GameListTransformer;
 import com.github.jakz.romlib.data.cataloguers.GameCataloguer;
 import com.github.jakz.romlib.data.cataloguers.TitleNormalizer;
 import com.github.jakz.romlib.data.game.Game;
@@ -50,6 +50,7 @@ public interface DataSupplier
       {
         Data data = supplier.load(set);
         data.games.ifPresent(games -> games.forEach(game -> {
+          game.forEach(cataloguer::catalogue);         
           cataloguer.catalogue(game);
           game.setAttribute(GameAttribute.NORMALIZED_TITLE, normalizer.normalize(game.getTitle()));
         }));
@@ -81,7 +82,7 @@ public interface DataSupplier
     };
   }
   
-  public static DataSupplier derive(final DataSupplier supplier, final GameAggregator aggregator)
+  public static DataSupplier derive(final DataSupplier supplier, final GameListTransformer aggregator)
   {
     return new DataSupplier()
     {
@@ -90,7 +91,7 @@ public interface DataSupplier
         Data data = supplier.load(set);
         
         if (data.games.isPresent())
-          return new Data(aggregator.aggregate(data.games.get()), data.clones.orElse(null), data.provider.orElse(null));
+          return new Data(aggregator.transform(data.games.get()), data.clones.orElse(null), data.provider.orElse(null));
         else        
           return data;
       }

@@ -22,6 +22,7 @@ import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.Language;
 import com.github.jakz.romlib.data.game.LanguageSet;
 import com.github.jakz.romlib.data.game.Location;
+import com.github.jakz.romlib.data.game.Rom;
 import com.github.jakz.romlib.data.game.VersionNumber;
 import com.github.jakz.romlib.data.game.Version;
 import com.github.jakz.romlib.data.game.VideoFormat;
@@ -103,6 +104,8 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("Slovenia", new Rule(game -> game.getLocation().add(Location.SLOVENIA)));
     mappers.put("India", new Rule(game -> game.getLocation().add(Location.INDIA)));
     mappers.put("UK", new Rule(game -> game.getLocation().add(Location.UNITED_KINGDOM)));
+    mappers.put("Israel", new Rule(game -> game.getLocation().add(Location.ISRAEL)));
+    mappers.put("Thailand", new Rule(game -> game.getLocation().add(Location.THAILAND)));
 
     
     mappers.put("Unknown", new Rule(game -> {})); // maybe a Location.UNKNOWN should be used?
@@ -133,8 +136,10 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("Cs", new Rule(game -> game.getLanguages().add(Language.CZECH)));
     mappers.put("Sl", new Rule(game -> game.getLanguages().add(Language.SLOVENE)));
     mappers.put("Sk", new Rule(game -> game.getLanguages().add(Language.SLOVAK)));
+    mappers.put("He", new Rule(game -> game.getLanguages().add(Language.HEBREW)));
+    mappers.put("Th", new Rule(game -> game.getLanguages().add(Language.THAI)));
 
-    
+        
     /* TODO: verify that settng the version doesn't override another one in case
      * of multiple versions. Actually maybe it would be better to manage version
      * as List<Version>
@@ -148,11 +153,18 @@ public class NoIntroCataloguer implements GameCataloguer
     };
     
     mappers.put("Demo", new Rule(versionUntouched, game -> game.setVersion(Version.DEMO)));
+    mappers.put("OEM", new Rule(versionUntouched, game -> game.setVersion(Version.OEM)));
     mappers.put("Sample", new Rule(versionUntouched, game -> game.setVersion(Version.SAMPLE)));
     mappers.put("Proto", new Rule(versionUntouched, game -> game.setVersion(Version.PROTO)));
     mappers.put("Promo", new Rule(versionUntouched, game -> game.setVersion(Version.PROMO)));
     mappers.put("Rerelease",new Rule(versionUntouched, game -> game.setVersion(Version.RERELEASE)));
+    
+    mappers.put("Preview",new Rule(versionUntouched, game -> game.setVersion(new Version.Custom("Preview"))));
+    mappers.put("Preview Beta",new Rule(versionUntouched, game -> game.setVersion(new Version.Custom("Preview Beta"))));
+    mappers.put("Prerelease",new Rule(versionUntouched, game -> game.setVersion(new Version.Custom("Prerelease"))));
 
+    
+    
     mappers.put("Unl", new Rule(game -> game.setLicensed(false)));
 
     mappers.put("NTSC",new Rule( game -> game.setVideoFormat(VideoFormat.NTSC)));
@@ -259,34 +271,56 @@ public class NoIntroCataloguer implements GameCataloguer
 
     int firstParen = title.indexOf('(');
 
-    Arrays.stream(title.substring(firstParen).split("\\(|\\)")).filter(s -> !s.isEmpty()).map(s -> s.trim()).forEach(s -> {
-      Arrays.stream(s.split(",")).map(t -> t.trim()).filter(t -> !t.isEmpty()).forEach(t -> {
-        Rule rule = mappers.get(t);
-        
-        if (rule != null)
-        {
-          if (rule.precondition.test(game))
+    if (firstParen != -1)
+    {
+      Arrays.stream(title.substring(firstParen).split("\\(|\\)")).filter(s -> !s.isEmpty()).map(s -> s.trim()).forEach(s -> {
+        Arrays.stream(s.split(",")).map(t -> t.trim()).filter(t -> !t.isEmpty()).forEach(t -> {
+          Rule rule = mappers.get(t);
+          
+          if (rule != null)
           {
-            Consumer<Game> mapper = rule.lambda;
-            mapper.accept(game);
+            if (rule.precondition.test(game))
+            {
+              Consumer<Game> mapper = rule.lambda;
+              mapper.accept(game);
+            }
+            
+            return;
           }
           
-          return;
-        }
-        
-        for (LambdaCataloguer lambda : lambdas)
-        {
-          if (lambda.catalogue(t, game))
-            return;
-        }
-        
-        //if (game.getLocation().isJust(Location.EUROPE) && game.getLanguages().empty())
-        //  game.getLanguages().add(Language.ENGLISH_UK);
-        
-        List<String> games = unknownTokens.computeIfAbsent(t, kk -> new ArrayList<>());
-        games.add(game.getTitle());
+          for (LambdaCataloguer lambda : lambdas)
+          {
+            if (lambda.catalogue(t, game))
+              return;
+          }
+          
+          //if (game.getLocation().isJust(Location.EUROPE) && game.getLanguages().empty())
+          //  game.getLanguages().add(Language.ENGLISH_UK);
+          
+          List<String> games = unknownTokens.computeIfAbsent(t, kk -> new ArrayList<>());
+          games.add(game.getTitle());
+        }); 
       }); 
-    });    
+    }
+  }
+  
+  public void catalogue(Rom rom)
+  {
+    String title = rom.name;
+
+    int firstParen = title.indexOf('(');
+    
+    if (firstParen != -1)
+    {
+      Arrays.stream(title.substring(firstParen).split("\\(|\\)")).filter(s -> !s.isEmpty()).map(s -> s.trim()).forEach(s -> {
+        Arrays.stream(s.split(",")).map(t -> t.trim()).filter(t -> !t.isEmpty()).forEach(t -> {
+          if (t.startsWith("Track "))
+          {
+            //TODO: set track attribute
+          }
+        });
+      });
+    }
   }
   
   @Override public void done() { printAddendums(); }
