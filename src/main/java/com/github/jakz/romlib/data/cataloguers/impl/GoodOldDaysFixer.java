@@ -8,11 +8,26 @@ import com.github.jakz.romlib.data.cataloguers.CloneSetCreator;
 import com.github.jakz.romlib.data.cataloguers.GameCataloguer;
 import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.GameClone;
+import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 import com.github.jakz.romlib.data.set.CloneSet;
 import com.github.jakz.romlib.data.set.GameList;
 
 public class GoodOldDaysFixer implements GameCataloguer, CloneSetCreator
 {
+  private String normalizedTitle(Game g)
+  {
+    int i = g.getTitle().lastIndexOf("[");
+    return g.getTitle().substring(0, i).trim();
+  }
+  
+  private int releaseNumber(String title)
+  {
+    int i = title.lastIndexOf("[");
+    int j = title.lastIndexOf("]");
+    
+    return Integer.parseInt(title.substring(i+1, j));
+  }
+  
   @Override
   public void catalogue(Game game)
   {
@@ -20,16 +35,12 @@ public class GoodOldDaysFixer implements GameCataloguer, CloneSetCreator
     String title = game.getTitle();
     String desc = game.getDescription();
     
+    game.setAttribute(GameAttribute.NUMBER, releaseNumber(desc));
+    
     game.setTitle(desc);
     game.setDescription(title);
   }
 
-  private String normalizedTitle(Game g)
-  {
-    int i = g.getTitle().indexOf("[");
-    return g.getTitle().substring(0, i).trim();
-  }
-  
   @Override
   public CloneSet generate(GameList set)
   {

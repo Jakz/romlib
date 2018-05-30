@@ -6,14 +6,17 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Objects;
 
+import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 import com.pixbits.lib.lang.StringUtils;
 
 public interface GameID<T>
 {
   public static class Numeric implements GameID<Integer>
   {
-    private final int value;
+    public final int value;
     public Numeric(int value) { this.value = value; }
+    public boolean equals(Object o) { return o instanceof Numeric && ((Numeric)o).value == value; }
+    public int hashCode() { return Integer.hashCode(value); }
   }
   
   public static class Textual implements GameID<String>
@@ -103,5 +106,20 @@ public interface GameID<T>
     
     @Override public boolean equals(Object o) { return o instanceof MagicHash && Arrays.equals(((MagicHash)o).value, value); }
     @Override public int hashCode() { return Arrays.hashCode(value); }
+  }
+  
+  @FunctionalInterface
+  public static interface Generator
+  {
+    public GameID<?> compute(Game game);
+    
+    public static Generator DEFAULT = game -> {
+      Rom.Hash[] hashes = game.stream().map(Rom::hash).toArray(i -> new Rom.Hash[i]);
+      return new GameID.MagicHash(hashes);
+    };
+    
+    public static Generator BY_RELEASE_NUMBER = game -> {
+      return new GameID.Numeric(game.getAttribute(GameAttribute.NUMBER));
+    };
   }
 }

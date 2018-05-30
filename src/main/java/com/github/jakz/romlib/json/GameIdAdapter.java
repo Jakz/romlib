@@ -28,13 +28,18 @@ public class GameIdAdapter implements JsonSerializer<GameID<?>>, JsonDeserialize
 
       if (src instanceof GameID.SizeAndCRC)
       {
-        a.add("size-crc");
+        a.add(new JsonPrimitive("size-crc"));
         a.add(((GameID.SizeAndCRC)src).value);
       }
       else if (src instanceof GameID.MultipleCRC)
       {
-        a.add("multiple-crc");
+        a.add(new JsonPrimitive("multiple-crc"));
         a.add(context.serialize(((GameID.MultipleCRC)src).values));
+      }
+      else if (src instanceof GameID.Numeric)
+      {
+        a.add(new JsonPrimitive("number"));
+        a.add(context.serialize(((GameID.Numeric)src).value));
       }
       else
         throw new JsonParseException("No way to serialize GameID<?> " + src);
@@ -64,6 +69,8 @@ public class GameIdAdapter implements JsonSerializer<GameID<?>>, JsonDeserialize
         return new GameID.SizeAndCRC(j.get(1).getAsLong());
       else if (jtype.equals("multiple-crc"))
         return new GameID.MultipleCRC(context.deserialize(j.get(1), long[].class));
+      else if (jtype.equals("number"))
+        return new GameID.Numeric(context.deserialize(j.get(1), Integer.class));
     }
     
     throw new JsonParseException("No way to unserialize GameID<?>");

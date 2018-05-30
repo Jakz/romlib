@@ -245,6 +245,7 @@ public class SearchPanel extends JPanel
       usedLanguages.stream()
         .sorted((l1,l2) -> l1.fullName.compareTo(l2.fullName))
         .forEach(languages::addItem);
+      languages.setEnabled(languages.getItemCount() > 1);
       
       /* add all found locations to used locations set */
       set.stream()
@@ -266,6 +267,7 @@ public class SearchPanel extends JPanel
             return 0;
         })
         .forEach(locations::addItem);
+      locations.setEnabled(languages.getItemCount() > 1);
 		});
 	}
 }

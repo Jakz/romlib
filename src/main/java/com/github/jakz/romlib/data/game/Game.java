@@ -115,9 +115,7 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	    return new GameID.MultipleCRC(crcs);
 	  }*/
 	  
-    Rom.Hash[] hashes = Arrays.stream(roms).map(Rom::hash).toArray(i -> new Rom.Hash[i]);
-	  return new GameID.MagicHash(hashes);
-	  
+	  return set.helper().gameIdGenerator().compute(this);
 	  //  throw new UnsupportedOperationException("no GameID generator for sets with multiple roms per game");
 	}
 		
