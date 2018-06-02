@@ -8,6 +8,8 @@ import com.github.jakz.romlib.data.cataloguers.CloneSetCreator;
 import com.github.jakz.romlib.data.cataloguers.GameCataloguer;
 import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.GameClone;
+import com.github.jakz.romlib.data.game.Language;
+import com.github.jakz.romlib.data.game.Location;
 import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 import com.github.jakz.romlib.data.set.CloneSet;
 import com.github.jakz.romlib.data.set.GameList;
@@ -34,6 +36,22 @@ public class GoodOldDaysFixer implements GameCataloguer, CloneSetCreator
     /* switch title with description */
     String title = game.getTitle();
     String desc = game.getDescription();
+    
+    String comment = game.getComment();
+    int lastSpace = comment.lastIndexOf(' ');
+    if (lastSpace != -1)
+    {
+      String language = comment.substring(lastSpace+1);
+      switch (language)
+      {
+        case "English": game.getLanguages().add(Language.ENGLISH); game.getLocation().add(Location.USA); break;
+        case "Deutsch": game.getLanguages().add(Language.GERMAN); game.getLocation().add(Location.GERMANY); break;
+        case "Français": game.getLanguages().add(Language.FRENCH); game.getLocation().add(Location.FRANCE); break;
+        case "Castellano": game.getLanguages().add(Language.SPANISH); game.getLocation().add(Location.SPAIN); break;
+        case "Italiano": game.getLanguages().add(Language.ITALIAN); game.getLocation().add(Location.ITALY); break;
+        default: throw new IllegalArgumentException("Unhandled language: "+language);
+      }
+    }
     
     game.setAttribute(GameAttribute.NUMBER, releaseNumber(desc));
     
