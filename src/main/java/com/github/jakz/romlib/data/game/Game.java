@@ -133,14 +133,7 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	{
 		return getCorrectName();
 	}
-	
-	public void move(Path dest) throws IOException
-	{
-	  throw new UnsupportedOperationException("Move is not implemented anymore");
-	  //Files.move(path.file(), dest);
-	  //path = path.relocate(dest);
-	}
-	
+
 	public boolean hasAsset(Asset asset)
 	{
 	  return getAssetData(asset).isPresent();

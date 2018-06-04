@@ -65,7 +65,8 @@ public class CSOBinaryHandle extends Handle
   @Override public String fileName() { return path().toString(); }
 
   @Override public String plainName() { return FileUtils.trimExtension(path.getFileName().toString()); }
-
+  
+  @Override public String internalName() { return path.getFileName().toString(); }
   @Override public String plainInternalName() { return plainName(); }
 
   @Override public void relocate(Path file) { this.path = file; }

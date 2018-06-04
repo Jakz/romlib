@@ -33,6 +33,7 @@ public abstract class WrapperStreamHandle extends Handle
   @Override public Path path() { return handle.path(); }
   @Override public String relativePath() { return handle.relativePath(); }
   @Override public String fileName() { return handle.fileName(); }
+  @Override public String internalName() { return handle.internalName(); }
   @Override public String plainName() { return handle.plainName(); }
   @Override public String plainInternalName() { return handle.plainInternalName(); }
   @Override public void relocate(Path file) { handle.relocate(file); }

@@ -204,7 +204,7 @@ public class GameSet implements Iterable<Game>, GameMap
 	
 	public String ident()
 	{
-		return info.getFormat().getIdent()+"-"+platform.getTag()+"-"+info.getProvider().getIdentifier();
+		return platform.getTag()+"-"+info.getProvider().getIdentifier()+"-"+info.getFormat().getIdent();
 	}
 	
 	public boolean isPresentOnDisk() { return Files.exists(datPath()); }
