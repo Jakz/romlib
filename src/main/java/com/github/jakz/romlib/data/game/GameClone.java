@@ -116,7 +116,7 @@ public class GameClone implements Iterable<Game>, Drawable
     {
       GameStatus status = game.getStatus();
       hasMissing = hasMissing || status == GameStatus.MISSING || status == GameStatus.INCOMPLETE;
-      hasFound = hasFound || status == GameStatus.FOUND;
+      hasFound = hasFound || status == GameStatus.FOUND || status == GameStatus.UNORGANIZED;
       hasUnorganized = hasUnorganized || status == GameStatus.UNORGANIZED;
       
       if (status == GameStatus.FOUND || status == GameStatus.UNORGANIZED)

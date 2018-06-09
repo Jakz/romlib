@@ -33,42 +33,13 @@ public interface DataSupplier
   Data load(GameSet set);
   DatFormat getFormat();
   
-  public static DataSupplier of(DatFormat format, Function<GameSet, Data> loader)
-  {
-    return new DataSupplier()
-    {
-      @Override public Data load(GameSet set) { return loader.apply(set); }
-      @Override public DatFormat getFormat() { return format; }
-    };
-  }
-  
-  public static DataSupplier derive(final DataSupplier supplier, final GameCataloguer cataloguer, final TitleNormalizer normalizer)
+  default DataSupplier apply(final CloneSetCreator cloneSetCreator)
   {
     return new DataSupplier()
     {
       @Override public Data load(GameSet set)
       {
-        Data data = supplier.load(set);
-        data.games.ifPresent(games -> games.forEach(game -> {
-          game.forEach(cataloguer::catalogue);         
-          cataloguer.catalogue(game);
-          game.setAttribute(GameAttribute.NORMALIZED_TITLE, normalizer.normalize(game.getTitle()));
-        }));
-        cataloguer.done();
-        return data;
-      }
-      
-      @Override public DatFormat getFormat() { return supplier.getFormat(); }
-    };
-  }
-  
-  public static DataSupplier derive(final DataSupplier supplier, final CloneSetCreator cloneSetCreator)
-  {
-    return new DataSupplier()
-    {
-      @Override public Data load(GameSet set)
-      {
-        Data data = supplier.load(set);
+        Data data = DataSupplier.this.load(set);
         if (data.games.isPresent())
         {
           CloneSet cloneSet = cloneSetCreator.generate(data.games.get());    
@@ -78,27 +49,74 @@ public interface DataSupplier
         return data;
       }
       
-      @Override public DatFormat getFormat() { return supplier.getFormat(); }
+      @Override public DatFormat getFormat() { return DataSupplier.this.getFormat(); }
     };
   }
   
-  public static DataSupplier derive(final DataSupplier supplier, final GameListTransformer aggregator)
+  default DataSupplier apply(final TitleNormalizer titleNormalizer)
+  {
+    return new DataSupplier() {
+      @Override public Data load(GameSet set)
+      {
+        Data data = DataSupplier.this.load(set);
+        data.games.ifPresent(games -> games.forEach(game -> {
+          game.setAttribute(GameAttribute.NORMALIZED_TITLE, titleNormalizer.normalize(game.getTitle()));
+        }));
+        return data;
+      }
+      
+      @Override public DatFormat getFormat() { return DataSupplier.this.getFormat(); }
+    };
+  }
+  
+  default DataSupplier apply(final GameCataloguer cataloguer)
   {
     return new DataSupplier()
     {
       @Override public Data load(GameSet set)
       {
-        Data data = supplier.load(set);
-        
+        Data data = DataSupplier.this.load(set);
+        data.games.ifPresent(games -> games.forEach(game -> {
+          game.forEach(cataloguer::catalogue);         
+          cataloguer.catalogue(game);
+        }));
+        cataloguer.done();
+        return data;
+      }
+      
+      @Override public DatFormat getFormat() { return DataSupplier.this.getFormat(); }
+    };
+  }
+  
+  default public DataSupplier apply(final GameListTransformer aggregator)
+  {
+    return new DataSupplier()
+    {
+      @Override public Data load(GameSet set)
+      {
+        Data data = DataSupplier.this.load(set);
         if (data.games.isPresent())
           return new Data(aggregator.transform(data.games.get()), data.clones.orElse(null), data.provider.orElse(null));
         else        
           return data;
       }
       
-      @Override public DatFormat getFormat() { return supplier.getFormat(); }
+      @Override public DatFormat getFormat() { return DataSupplier.this.getFormat(); }
     };
   }
+    
+  public static DataSupplier of(DatFormat format, Function<GameSet, Data> loader)
+  {
+    return new DataSupplier()
+    {
+      @Override public Data load(GameSet set) { return loader.apply(set); }
+      @Override public DatFormat getFormat() { return format; }
+    };
+  }
+  
+
+  
+
 
   public static DataSupplier build(final DatFormat format)
   {

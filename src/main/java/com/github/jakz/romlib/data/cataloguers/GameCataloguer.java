@@ -4,7 +4,7 @@ import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.Rom;
 
 @FunctionalInterface
-public interface GameCataloguer
+public interface GameCataloguer extends GameSetTransformer
 {
   public void catalogue(Game game);
   public default void catalogue(Rom rom) { }

@@ -48,8 +48,9 @@ public class RedumpAggregatorByDisks implements GameListTransformer
       else
         single.add(game);
     }
-    
-    multiple.forEach((k, p) -> p.first.setRom(p.second.toArray(new Rom[p.second.size()])));
+
+    multiple.forEach((k, p) -> p.first.setRom(p.second.stream().filter(r -> !r.name.endsWith(".cue")).toArray(i -> new Rom[i])));
+    single.forEach(game -> game.setRom(game.stream().filter(r -> !r.name.endsWith(".cue")).toArray(i -> new Rom[i])));
     
     Game[] games = new Game[single.size() + multiple.size()];
     

@@ -20,6 +20,7 @@ import com.github.jakz.romlib.data.game.attributes.GameInfo;
 import com.github.jakz.romlib.data.platforms.Platform;
 import com.github.jakz.romlib.data.set.GameSet;
 import com.github.jakz.romlib.data.set.GameSetFeatures;
+import com.pixbits.lib.io.FileUtils;
 
 public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInterface, Drawable
 {
@@ -151,7 +152,26 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	public boolean isOrganized()
 	{
 	  GameSetFeatures helper = set.helper();
-	  return false;
+	  
+	  String correctName = helper.renamer().getNameForGame(this);
+	  
+	  // TODO: manage archived/unarchived/folder organizer
+	  /* just checking if all roms are archived with same filename (eg. same archive) */
+	  if (isComplete())
+	    return stream()
+	      .map(rom -> rom.handle().path())
+	      .map(FileUtils::fileNameWithoutExtension)
+	      .allMatch(correctName::equals);
+	  else
+	    return false;
+	}
+	
+	public void forgetStatus()
+	{
+    setStatus(GameStatus.MISSING);
+    stream().forEach(r -> r.setHandle(null));
+    if (clone != null)
+      clone.updateStatus();
 	}
 	
 	public void updateStatus()

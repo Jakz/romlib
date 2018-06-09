@@ -14,9 +14,9 @@ import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 import com.github.jakz.romlib.data.set.CloneSet;
 import com.github.jakz.romlib.data.set.GameList;
 
-public class GoodOldDaysFixer implements GameCataloguer, CloneSetCreator
+public class GoodOldDaysFixer implements GameCataloguer
 {
-  private String normalizedTitle(Game g)
+  private static String normalizedTitle(Game g)
   {
     int i = g.getTitle().lastIndexOf("[");
     return g.getTitle().substring(0, i).trim();
@@ -49,6 +49,7 @@ public class GoodOldDaysFixer implements GameCataloguer, CloneSetCreator
         case "Français": game.getLanguages().add(Language.FRENCH); game.getLocation().add(Location.FRANCE); break;
         case "Castellano": game.getLanguages().add(Language.SPANISH); game.getLocation().add(Location.SPAIN); break;
         case "Italiano": game.getLanguages().add(Language.ITALIAN); game.getLocation().add(Location.ITALY); break;
+        case "Nederlands": game.getLanguages().add(Language.DUTCH); game.getLocation().add(Location.NETHERLANDS); break;
         default: throw new IllegalArgumentException("Unhandled language: "+language);
       }
     }
@@ -59,14 +60,19 @@ public class GoodOldDaysFixer implements GameCataloguer, CloneSetCreator
     game.setDescription(title);
   }
 
-  @Override
-  public CloneSet generate(GameList set)
-  {
-    /* truncate to [ and aggregate by name */
-    Map<String, List<Game>> mapping = set.stream().collect(Collectors.groupingBy(g -> normalizedTitle(g)));
-    GameClone[] clones = mapping.values().stream().map(v -> new GameClone(normalizedTitle(v.get(0)), v)).toArray(i -> new GameClone[i]);
 
-    return new CloneSet(clones);
+  
+  public static class CloneCreator implements CloneSetCreator
+  {
+    @Override
+    public CloneSet generate(GameList set)
+    {
+      /* truncate to [ and aggregate by name */
+      Map<String, List<Game>> mapping = set.stream().collect(Collectors.groupingBy(g -> GoodOldDaysFixer.normalizedTitle(g)));
+      GameClone[] clones = mapping.values().stream().map(v -> new GameClone(GoodOldDaysFixer.normalizedTitle(v.get(0)), v)).toArray(i -> new GameClone[i]);
+
+      return new CloneSet(clones);
+    }  
   }
 
 }
