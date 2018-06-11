@@ -13,6 +13,7 @@ public enum Platforms implements Platform
   NES("nes", "NES", new String[] {"nes", "rom", "unf"}, Icon.SYSTEM_NES),
   SNES("snes", "Super Nintendo", new String[] {"smc", "sfc", "fig"}, Icon.SYSTEM_SUPER_NINTENDO),
   N64("n64", "Nintendo 64", new String[] {"n64", "v64", "u64", "z64"}, Icon.SYSTEM_NINTENDO_64),
+  GC("gc", "Nintendo GameCube", new String[] {"iso", "bin" }, Icon.SYSTEM_NINTENDO_GAMECUBE),
   GB("gb", "GameBoy", new String[] {"gb"}, Icon.SYSTEM_GAMEBOY),
   GBC("gbc", "GameBoy Color", new String[] {"gbc"}, Icon.SYSTEM_GAMEBOY_COLOR),
   GBA("gba", "GameBoy Advance",new String[] {"gba", "agb", "bin"}, Icon.SYSTEM_GAMEBOY_ADVANCE),
@@ -22,7 +23,7 @@ public enum Platforms implements Platform
   LYNX("lynx", "Atary Lynx", new String[] { "lnx" }),
   
   PS2("ps2", "Sony Playstation 2", new String[] { "bin", "iso" }),
-  PSP("psp", "Sony Playstation Portable", new String[] { "iso", "cso" }),
+  PSP("psp", "Sony Playstation Portable", new String[] { "iso", "cso" }, Icon.SYSTEM_SONY_PLAYSTATION_PORTABLE),
   
   WS("ws", "WonderSwan", new String[] {"ws"}, Icon.SYSTEM_WONDERSWAN),
   GG("gg", "Game Gear", new String[] {"gg"}, Icon.SYSTEM_GAME_GEAR),
