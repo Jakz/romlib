@@ -20,7 +20,6 @@ import com.github.jakz.romlib.data.cataloguers.LambdaCataloguer;
 import com.github.jakz.romlib.data.game.Date;
 import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.Language;
-import com.github.jakz.romlib.data.game.LanguageSet;
 import com.github.jakz.romlib.data.game.Location;
 import com.github.jakz.romlib.data.game.Rom;
 import com.github.jakz.romlib.data.game.VersionNumber;
@@ -147,8 +146,8 @@ public class NoIntroCataloguer implements GameCataloguer
     
     Predicate<Game> versionUntouched = g -> {
       boolean correct = g.getVersion() == Version.PROPER;
-      if (!correct)
-        throw new IllegalArgumentException("Version should be untouched for "+g.getTitle());
+      //if (!correct)
+      //  throw new IllegalArgumentException("Version should be untouched for "+g.getTitle());
       return correct;
     };
     

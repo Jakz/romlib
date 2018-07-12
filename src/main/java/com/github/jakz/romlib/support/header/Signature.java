@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 import com.pixbits.lib.io.archive.VerifierEntry;
-import com.pixbits.lib.io.archive.handles.Handle;
 
 public class Signature
 {

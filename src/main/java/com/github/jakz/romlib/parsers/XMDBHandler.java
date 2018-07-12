@@ -16,7 +16,6 @@ import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.GameClone;
 import com.github.jakz.romlib.data.game.Location;
 import com.github.jakz.romlib.data.set.CloneSet;
-import com.github.jakz.romlib.data.set.GameList;
 import com.github.jakz.romlib.data.set.GameMap;
 import com.pixbits.lib.io.xml.XMLEmbeddedDTD;
 import com.pixbits.lib.io.xml.XMLHandler;

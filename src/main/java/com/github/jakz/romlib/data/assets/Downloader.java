@@ -18,8 +18,6 @@ import java.util.function.Consumer;
 
 import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.set.GameSet;
-import com.pixbits.lib.log.Log;
-import com.pixbits.lib.log.Logger;
 
 public class Downloader
 {  

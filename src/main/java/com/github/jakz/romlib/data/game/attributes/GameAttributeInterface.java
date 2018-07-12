@@ -2,7 +2,6 @@ package com.github.jakz.romlib.data.game.attributes;
 
 import java.util.function.Supplier;
 
-import com.github.jakz.romlib.data.game.Drawable;
 import com.github.jakz.romlib.data.game.LanguageSet;
 import com.github.jakz.romlib.data.game.LocationSet;
 import com.github.jakz.romlib.data.game.RomSize;
