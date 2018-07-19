@@ -59,8 +59,6 @@ public class GoodOldDaysFixer implements GameCataloguer
     game.setTitle(desc);
     game.setDescription(title);
   }
-
-
   
   public static class CloneCreator implements CloneSetCreator
   {
