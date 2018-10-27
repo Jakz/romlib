@@ -28,11 +28,7 @@ import com.github.jakz.romlib.data.game.Rom;
 import com.github.jakz.romlib.data.game.RomSize;
 import com.github.jakz.romlib.data.game.attributes.Attribute;
 import com.github.jakz.romlib.data.platforms.Platform;
-import com.github.jakz.romlib.json.GameListAdapter;
-import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 import com.pixbits.lib.io.digest.HashCache;
-import com.pixbits.lib.log.Log;
 
 public class GameSet implements Iterable<Game>, GameMap
 {	

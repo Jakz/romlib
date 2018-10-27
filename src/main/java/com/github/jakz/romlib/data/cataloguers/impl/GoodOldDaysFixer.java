@@ -59,8 +59,6 @@ public class GoodOldDaysFixer implements GameCataloguer
     game.setTitle(desc);
     game.setDescription(title);
   }
-
-
   
   public static class CloneCreator implements CloneSetCreator
   {
@@ -72,7 +70,7 @@ public class GoodOldDaysFixer implements GameCataloguer
       GameClone[] clones = mapping.values().stream().map(v -> new GameClone(GoodOldDaysFixer.normalizedTitle(v.get(0)), v)).toArray(i -> new GameClone[i]);
 
       return new CloneSet(clones);
-    }  
+    }
   }
 
 }

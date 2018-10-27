@@ -7,7 +7,6 @@ import com.github.jakz.romlib.data.cataloguers.CloneSetCreator;
 import com.github.jakz.romlib.data.cataloguers.GameListTransformer;
 import com.github.jakz.romlib.data.cataloguers.GameCataloguer;
 import com.github.jakz.romlib.data.cataloguers.TitleNormalizer;
-import com.github.jakz.romlib.data.game.Game;
 import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 
 public interface DataSupplier
