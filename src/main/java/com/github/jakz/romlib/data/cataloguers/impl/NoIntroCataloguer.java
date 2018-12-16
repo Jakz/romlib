@@ -27,6 +27,7 @@ import com.github.jakz.romlib.data.game.Version;
 import com.github.jakz.romlib.data.game.VideoFormat;
 import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 import com.github.jakz.romlib.data.platforms.GBC;
+import com.github.jakz.romlib.data.platforms.NDS;
 
 public class NoIntroCataloguer implements GameCataloguer
 {
@@ -105,6 +106,8 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("UK", new Rule(game -> game.getLocation().add(Location.UNITED_KINGDOM)));
     mappers.put("Israel", new Rule(game -> game.getLocation().add(Location.ISRAEL)));
     mappers.put("Thailand", new Rule(game -> game.getLocation().add(Location.THAILAND)));
+    mappers.put("Denmark", new Rule(game -> game.getLocation().add(Location.DENMARK)));
+    mappers.put("Finland", new Rule(game -> game.getLocation().add(Location.FINLAND)));
 
     
     mappers.put("Unknown", new Rule(game -> {})); // maybe a Location.UNKNOWN should be used?
@@ -169,14 +172,17 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("NTSC",new Rule( game -> game.setVideoFormat(VideoFormat.NTSC)));
     mappers.put("PAL", new Rule(game -> game.setVideoFormat(VideoFormat.PAL)));
 
-    mappers.put("GB Compatible", new Rule(game -> game.setCustomAttribute(GBC.Attribute.GB_COMPATIBLE, true)));
-    mappers.put("SGB Enhanced", new Rule(game -> game.setCustomAttribute(GBC.Attribute.SGB_ENHANCED, true)));
-    mappers.put("Rumble Version", new Rule(game -> game.setCustomAttribute(GBC.Attribute.RUMBLE_VERSION, true)));
+    /* game boy color */
+    mappers.put("GB Compatible", new Rule(game -> game.setAttribute(GBC.Attribute.GB_COMPATIBLE, true)));
+    mappers.put("SGB Enhanced", new Rule(game -> game.setAttribute(GBC.Attribute.SGB_ENHANCED, true)));
+    mappers.put("Rumble Version", new Rule(game -> game.setAttribute(GBC.Attribute.RUMBLE_VERSION, true)));
+    
+    mappers.put("NDSi Enhanced", new Rule(game -> game.setAttribute(NDS.Attribute.NDSI_ENHANCED, true)));
 
     mappers.put("[b]", new Rule(game -> game.setAttribute(GameAttribute.BAD_DUMP, true)));
 
 
-    /* PSP coll(new Ruleections */
+    /* PSP collections */
     mappers.put("PSP Essentials", new Rule(game -> game.setAttribute(GameAttribute.COLLECTION, "PSP Essentials")));
     mappers.put("Platinum", new Rule(game -> game.setAttribute(GameAttribute.COLLECTION, "Platinum")));
     mappers.put("PSP The Best", new Rule(game -> game.setAttribute(GameAttribute.COLLECTION, "PSP The Best")));
@@ -254,6 +260,24 @@ public class NoIntroCataloguer implements GameCataloguer
         }
       });
         
+    /* NDS serial parser */
+    lambdas.add(
+      new LambdaCataloguer() {
+        private final Pattern pattern = Pattern.compile("^([A-Z0-9]{4})$");
+        
+        @Override
+        public boolean catalogue(String token, Game game)
+        {
+          Matcher matcher = pattern.matcher(token);
+          boolean matched = matcher.find();
+
+          if (matched)
+            game.setAttribute(GameAttribute.SERIAL, matcher.group(1));
+
+          return matched;
+        }
+      }
+    );
     
   }
   

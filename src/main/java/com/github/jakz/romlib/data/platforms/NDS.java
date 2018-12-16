@@ -1,6 +1,8 @@
 package com.github.jakz.romlib.data.platforms;
 
 import com.github.jakz.romlib.data.game.RomSize;
+import com.github.jakz.romlib.data.game.attributes.CustomGameAttribute;
+import com.github.jakz.romlib.ui.i18n.Text;
 import com.github.jakz.romlib.data.game.GameSave;
 
 public class NDS
@@ -40,5 +42,11 @@ public class NDS
     }
     
     public Type getType() { return type; }
+  }
+  
+  public static class Attribute
+  {
+    public static final com.github.jakz.romlib.data.game.attributes.Attribute NDSI_ENHANCED = 
+        new CustomGameAttribute.Boolean("ndsi-enhanced", Text.ATTRIBUTE_NDS_NDSI_ENHANCED);
   }
 }

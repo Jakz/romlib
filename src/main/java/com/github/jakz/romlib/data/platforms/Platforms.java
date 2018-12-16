@@ -22,6 +22,8 @@ public enum Platforms implements Platform
 
   LYNX("lynx", "Atary Lynx", new String[] { "lnx" }),
   
+  MD("md", "Sega Megadrive", new String[] { "md" }),
+  
   PS2("ps2", "Sony Playstation 2", new String[] { "bin", "iso" }),
   PSP("psp", "Sony Playstation Portable", new String[] { "iso", "cso" }, Icon.SYSTEM_SONY_PLAYSTATION_PORTABLE),
   

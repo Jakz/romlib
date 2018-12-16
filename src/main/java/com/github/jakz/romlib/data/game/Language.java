@@ -1,6 +1,8 @@
 package com.github.jakz.romlib.data.game;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.github.jakz.romlib.ui.Icon;
@@ -85,6 +87,21 @@ public enum Language
 	static Language forName(String language)
 	{
 		return mapping.get(language);
+	}
+	
+	private static Map<String, Language> additionalISO639 = new HashMap<>();
+	
+	static
+	{
+	  additionalISO639.put("nb", NORWEGIAN);
+	}
+	
+	public static Language for639_1(String code)
+	{
+	  return Arrays.stream(values())
+	    .filter(l -> l.iso639_1.compareToIgnoreCase(code) == 0)
+	    .findFirst()
+	    .orElse(additionalISO639.get(code));
 	}
 	
 	public static String asString(LanguageSet languages)

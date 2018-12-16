@@ -85,7 +85,8 @@ public class GameListAdapter implements JsonSerializer<GameList>, JsonDeserializ
         
         if (prom.attributes != null)
           for (GameSavedAttribute attrib : prom.attributes)
-            game.setCustomAttribute(attrib.key, attrib.value);
+            if (attrib != null)
+              game.setCustomAttribute(attrib.key, attrib.value);
         
         if (prom.attachments != null)
           game.getAttachments().set(prom.attachments);

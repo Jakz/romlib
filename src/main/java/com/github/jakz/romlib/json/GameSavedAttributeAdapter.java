@@ -26,7 +26,7 @@ public class GameSavedAttributeAdapter implements JsonSerializer<GameSavedAttrib
   {
     Attribute attribute = context.deserialize(json.getAsJsonObject().get("key"), GameAttribute.class);
     
-    if (attribute.getType() != null)
+    if (attribute != null && attribute.getType() != null)
     {
       Object value = context.deserialize(json.getAsJsonObject().get("value"), attribute.getType());
       return new GameSavedAttribute(attribute, value);
