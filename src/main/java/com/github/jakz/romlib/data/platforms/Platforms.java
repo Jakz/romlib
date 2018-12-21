@@ -20,10 +20,8 @@ public enum Platforms implements Platform
   NDS("nds", "Nintendo DS", new String[] {"nds", "dsi"}, Icon.SYSTEM_NINTENDO_DS),
   _3DS("3ds", "Nintendo 3DS", new String[] {"3ds", "cia", "3dsx"}),
 
-  LYNX("lynx", "Atary Lynx", new String[] { "lnx" }),
-  
-  MD("md", "Sega Megadrive", new String[] { "md" }),
-  
+  LYNX("lynx", "Atari", "Lynx", new String[] { "lnx" }),
+    
   PS2("ps2", "Sony Playstation 2", new String[] { "bin", "iso" }),
   PSP("psp", "Sony Playstation Portable", new String[] { "iso", "cso" }, Icon.SYSTEM_SONY_PLAYSTATION_PORTABLE),
   
