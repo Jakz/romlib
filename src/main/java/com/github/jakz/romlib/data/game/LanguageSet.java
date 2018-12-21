@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class LanguageSet implements Iterable<Language>
@@ -40,4 +41,9 @@ public class LanguageSet implements Iterable<Language>
   
   public Iterator<Language> iterator() { return languages.iterator(); }
   public Stream<Language> stream() { return languages.stream(); }
+
+  public String toString()
+  {
+    return languages.stream().map(l -> l.iso639_1.toLowerCase()).collect(Collectors.joining(","));
+  }
 }
