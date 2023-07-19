@@ -2,6 +2,8 @@ package com.github.jakz.romlib.ui;
 
 import javax.swing.ImageIcon;
 
+import com.pixbits.lib.exceptions.FileNotFoundException;
+
 public enum Icon
 {
   FLAG_AUSTRALIA("flag_australia"),
@@ -60,7 +62,7 @@ public enum Icon
   ROM("rom"),
 
   SYSTEM_GAME_GEAR("systems/game-gear"),
-  SYSTEM_GAMEBOY("systems/gameboy"),
+  SYSTEM_GAMEBOY("systems/gameboy"), //TODO: fix icon which is now a copy of GBC
   SYSTEM_GAMEBOY_ADVANCE("systems/gameboy-advance"),
   SYSTEM_GAMEBOY_COLOR("systems/gameboy-color"),
   SYSTEM_NINTENDO_DS("systems/nintendo-ds"),
@@ -91,8 +93,17 @@ public enum Icon
   
   public ImageIcon getIcon()
   {
-    if (icon == null)
-      icon = new ImageIcon(this.getClass().getClassLoader().getResource("com/github/jakz/romlib/ui/resources/"+name+".png"));
+    String path = "com/github/jakz/romlib/ui/resources/"+name+".png";
+    
+    try
+    {
+      if (icon == null)
+        icon = new ImageIcon(this.getClass().getClassLoader().getResource(path));
+    }
+    catch (NullPointerException e)
+    {
+      throw new RuntimeException("Missing resource file: "+path);
+    }
     
     return icon;
   }

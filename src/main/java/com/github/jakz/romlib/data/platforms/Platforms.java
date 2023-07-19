@@ -28,7 +28,9 @@ public enum Platforms implements Platform
   WS("ws", "Bandai", "WonderSwan", new String[] {"ws"}, Icon.SYSTEM_WONDERSWAN),
   GG("gg", "Sega", "Game Gear", new String[] {"gg"}, Icon.SYSTEM_GAME_GEAR),
   MD("md", "Sega", "Mega Drive", new String[] {"md", "gen"}),
+  
   C64("c64", "Commodore", "64", null, Icon.SYSTEM_COMMODORE_64),
+  AMIGA("amiga", "Commodore", "Amiga", new String[] { "idf", "adf" }, Icon.SYSTEM_COMMODORE_64),
 
   NGP("ngp", null, "Neo-Geo Pocket", new String[] {"ngp"}, Icon.SYSTEM_NEO_GEO_POCKET),
   
