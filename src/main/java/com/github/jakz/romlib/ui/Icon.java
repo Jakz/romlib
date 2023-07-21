@@ -77,7 +77,8 @@ public enum Icon
   SYSTEM_SEGA_MASTER_SYSTEM("systems/sega-master-system"),
   
   SYSTEM_COMMODORE_64("systems/commodore-64"),
-  
+  SYSTEM_AMIGA("systems/amiga"),
+
   SYSTEM_WONDERSWAN("systems/wonderswan"),
   SYSTEM_NEO_GEO_POCKET("systems/neo-geo-pocket"),
   SYSTEM_MISSING("systems/missing"),

@@ -63,7 +63,7 @@ public class GameList implements Iterable<Game>, GameMap
 
 	void resetStatus()
 	{
-		Arrays.stream(games).forEach(Game::forgetStatus);
+	  Arrays.stream(games).forEach(Game::forgetStatus);
 	}
 	
 	public void refreshStatus()

@@ -30,7 +30,7 @@ public enum Platforms implements Platform
   MD("md", "Sega", "Mega Drive", new String[] {"md", "gen"}),
   
   C64("c64", "Commodore", "64", null, Icon.SYSTEM_COMMODORE_64),
-  AMIGA("amiga", "Commodore", "Amiga", new String[] { "idf", "adf" }, Icon.SYSTEM_COMMODORE_64),
+  AMIGA("amiga", "Commodore", "Amiga", new String[] { "idf", "adf" }, Icon.SYSTEM_AMIGA),
 
   NGP("ngp", null, "Neo-Geo Pocket", new String[] {"ngp"}, Icon.SYSTEM_NEO_GEO_POCKET),
   
