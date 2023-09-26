@@ -25,7 +25,10 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
   public static class Data
   {
     public Map<String, String> setAttributes;
+    public Map<String, String> childToParentCloneMap;
     public GameList list;
+    
+    public boolean hasClones() { return !childToParentCloneMap.isEmpty(); }
   }
  
   private enum Status
@@ -41,6 +44,7 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
   RomSize.Set sizeSet = new RomSize.NullSet();
   
   Map<String, String> attributes;
+  Map<String, String> childToParentCloneMap;
   
   List<Game> games;
   
@@ -75,6 +79,7 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
     games = new ArrayList<>();
     roms = new ArrayList<>();
     attributes = new HashMap<>();
+    childToParentCloneMap = new HashMap<>();
   }
 
   @Override
@@ -86,7 +91,14 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
     {
       switch (name)
       {
-        case "game": gameName = attrString("name"); break;
+        case "game":
+        {
+          gameName = attrString("name");
+         
+          /* if cloneof is present prepare it */
+          if (hasAttr("cloneof"))
+            childToParentCloneMap.put(gameName, attrString("cloneof"));
+        }
         case "rom":
         {
           romName = attrString("name");
@@ -154,6 +166,7 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
           //Provider provider = new Provider(name, description, version, "", author);
           data = new Data();
           data.setAttributes = attributes;
+          data.childToParentCloneMap = childToParentCloneMap;
           data.list = new GameList(games.toArray(new Game[games.size()]), sizeSet);
           break;
         }
