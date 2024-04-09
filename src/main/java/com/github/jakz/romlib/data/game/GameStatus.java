@@ -4,10 +4,12 @@ import java.awt.Color;
 
 public enum GameStatus
 {
-	MISSING("Missing",new Color(195,0,0)),
+  FOUND("Found",new Color(0,150,0)),
+  MISSING("Missing",new Color(195,0,0)),
 	INCOMPLETE("Incomplete", new Color(220,132,0)),
 	UNORGANIZED("Unorganized", new Color(153, 135, 2)),
-	FOUND("Found",new Color(0,150,0));
+	
+	;
 	
 	public final String name;
 	public final Color color;

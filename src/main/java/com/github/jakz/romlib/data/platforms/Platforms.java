@@ -40,6 +40,8 @@ public enum Platforms implements Platform
   
   A2600("a2600", "Atari", "2600", new String[] { "a26" }),
   
+  
+  MAME("mame", null, "MAME", new String[] { }),
   ;
   
   public final String tag;

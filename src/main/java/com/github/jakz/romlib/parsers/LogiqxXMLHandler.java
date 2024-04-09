@@ -97,6 +97,7 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
       switch (name)
       {
         case "game":
+        case "machine":
         {
           gameName = attrString("name");
          
@@ -114,6 +115,7 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
           }
             
         }
+        case "disk":
         case "rom":
         {
           romName = attrString("name");
@@ -151,8 +153,21 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
       {
         case "description": gameDescription = asString(); break;
         case "comment": gameComment = asString(); break;
-        case "year": gameYear = Date.ofYear(asInt()); break;
+        case "year": 
+        {
+          try
+          {
+            gameYear = Date.ofYear(asInt());
+          }
+          catch (NumberFormatException e)
+          {
+            //TODO FIXME: hack
+            gameYear = Date.ofYear(1900);
+          }  
+          break;
+        }
         case "game":
+        case "machine":
         {
           game = gameFactory.get();
           
@@ -191,7 +206,14 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
           roms.clear();;
           break;
         }
-        case "rom": roms.add(new Rom(romName, sizeSet.forBytes(size), crc, md5, sha1)); break;
+        
+        case "rom":
+          roms.add(new Rom(romName, sizeSet.forBytes(size), crc, md5, sha1)); break;
+        case "disk": 
+        {
+          roms.add(new Rom(romName, sizeSet.forBytes(size), crc, md5, sha1)); break;
+        }
+          
         case "datafile": 
         {
           //Provider provider = new Provider(name, description, version, "", author);

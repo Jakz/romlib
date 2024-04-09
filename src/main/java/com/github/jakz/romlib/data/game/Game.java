@@ -48,6 +48,8 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
   public void clearCustomAttribute(Attribute attrib) { info.clearCustomAttribute(attrib); }
 
   public Attachments getAttachments() { return attachments; }
+  
+  private GameID<?> id;
 
 	public Game(GameSet set)
 	{
@@ -107,17 +109,10 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	
 	public GameID<?> getID()
 	{ 
-	  // TODO: find a generic way
-	  /*if (!hasMultipleRoms())
-	    return new GameID.SizeAndCRC(roms[0].size(), roms[0].crc());
-	  else
-	  {
-	    long[] crcs = Arrays.stream(roms).mapToLong(Rom::crc).toArray();
-	    return new GameID.MultipleCRC(crcs);
-	  }*/
+	  if (id == null)
+	    id = set.helper().gameIdGenerator().compute(this);
 	  
-	  return set.helper().gameIdGenerator().compute(this);
-	  //  throw new UnsupportedOperationException("no GameID generator for sets with multiple roms per game");
+	  return id;
 	}
 	
 	public boolean isMatching(GameRef ref)

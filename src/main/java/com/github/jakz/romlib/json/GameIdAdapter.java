@@ -40,6 +40,11 @@ public class GameIdAdapter implements JsonSerializer<GameID<?>>, JsonDeserialize
         a.add(new JsonPrimitive("number"));
         a.add(context.serialize(((GameID.Numeric)src).value));
       }
+      else if (src instanceof GameID.Textual)
+      {
+        a.add(new JsonPrimitive("textual"));
+        a.add(context.serialize(((GameID.Textual)src).value));
+      }
       else
         throw new JsonParseException("No way to serialize GameID<?> " + src);
     
@@ -70,6 +75,8 @@ public class GameIdAdapter implements JsonSerializer<GameID<?>>, JsonDeserialize
         return new GameID.MultipleCRC(context.deserialize(j.get(1), long[].class));
       else if (jtype.equals("number"))
         return new GameID.Numeric(context.deserialize(j.get(1), Integer.class));
+      else if (jtype.equals("textual"))
+        return new GameID.Textual(context.deserialize(j.get(1), String.class));
     }
     
     throw new JsonParseException("No way to unserialize GameID<?>");

@@ -78,13 +78,8 @@ public class GameClone implements Iterable<Game>, Drawable
     this.languages.clear();
     this.size = 0l;
     
-    System.out.println(games[0].getDrawableCaption());
-
-    
     for (Game game : games)
     {
-      System.out.println(game.getDrawableLocation());
-
       location.add(game.getLocation());
       languages.add(game.getLanguages());
       size += game.getSizeInBytes();      

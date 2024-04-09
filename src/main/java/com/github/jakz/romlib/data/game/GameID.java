@@ -21,7 +21,7 @@ public interface GameID<T>
   
   public static class Textual implements GameID<String>
   {
-    private final String value;
+    public final String value;
     public Textual(String value) { this.value = value; }
   }
   
@@ -88,12 +88,19 @@ public interface GameID<T>
         }
           
         int bufferSize = hashes.length * (Long.BYTES + Integer.BYTES);
-        ByteBuffer buffer = ByteBuffer.allocate(bufferSize);
+        DynamicByteBuffer buffer = new DynamicByteBuffer(bufferSize);
         
         for (Rom.Hash hash : hashes)
         {
-          buffer.putLong(hash.size());
-          buffer.putInt((int)hash.crc());
+          if (hash.size() != -1)
+            buffer.putLong(hash.size());
+          
+          if (hash.crc() != -1)
+            buffer.putInt((int)hash.crc());
+          else if (hash.md5 != null)
+            buffer.put(hash.md5);
+          else if (hash.sha1 != null)
+            buffer.put(hash.sha1);
         }
         
         value = digest.digest(buffer.array());
@@ -120,6 +127,10 @@ public interface GameID<T>
     
     public static Generator BY_RELEASE_NUMBER = game -> {
       return new GameID.Numeric(game.getAttribute(GameAttribute.NUMBER));
+    };
+    
+    public static Generator BY_NAME = game -> {
+      return new GameID.Textual(game.getAttribute(GameAttribute.TITLE));
     };
   }
 }
