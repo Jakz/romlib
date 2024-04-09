@@ -7,6 +7,7 @@ import com.github.jakz.romlib.data.cataloguers.CloneSetCreator;
 import com.github.jakz.romlib.data.cataloguers.GameListTransformer;
 import com.github.jakz.romlib.data.cataloguers.GameCataloguer;
 import com.github.jakz.romlib.data.cataloguers.TitleNormalizer;
+import com.github.jakz.romlib.data.game.GameClone;
 import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 
 public interface DataSupplier
@@ -27,6 +28,12 @@ public interface DataSupplier
     public Data(GameList games) { this(games, null, null); } 
     public Data(GameList games, CloneSet clones) { this(games, clones, null); }
     public Data(GameList games, Provider provider) { this(games, null, provider); }
+    
+    Data solve()
+    {
+      clones.ifPresent(c -> c.forEach(GameClone::updateInfo));
+      return this;
+    }
   }
   
   Data load(GameSet set);
@@ -80,6 +87,21 @@ public interface DataSupplier
           cataloguer.catalogue(game);
         }));
         cataloguer.done();
+        return data;
+      }
+      
+      @Override public DatFormat getFormat() { return DataSupplier.this.getFormat(); }
+    };
+  }
+  
+  default DataSupplier solve()
+  {
+    return new DataSupplier()
+    {
+      @Override public Data load(GameSet set)
+      {
+        Data data = DataSupplier.this.load(set);
+        data.solve();
         return data;
       }
       

@@ -3,6 +3,7 @@ package com.github.jakz.romlib.data.game;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -13,7 +14,7 @@ public class GameClone implements Iterable<Game>, Drawable
   private final String[] names;
   private final LocationSet location;
   private final LanguageSet languages;
-  private final long size;
+  private long size;
   int ordinal;
   
   private int foundCount;
@@ -54,11 +55,11 @@ public class GameClone implements Iterable<Game>, Drawable
     this.games = games.toArray(new Game[games.size()]);
     this.names = names;
     this.location = new LocationSet();
-    games.stream().map(Game::getLocation).forEach(location::add);
     this.languages = new LanguageSet();
-    games.stream().map(Game::getLanguages).forEach(languages::add);
     this.status = GameStatus.MISSING;
-    this.size = games.stream().mapToLong(Game::getSizeInBytes).sum();
+    
+    //TODO: maybe this could be always be deferred? to save some performance
+    updateInfo();
   }
 
   public GameClone(Collection<Game> games)
@@ -69,6 +70,26 @@ public class GameClone implements Iterable<Game>, Drawable
   public GameClone(String name, Collection<Game> games)
   {
     this(games, new String[] { name });
+  }
+  
+  public void updateInfo()
+  {
+    this.location.clear();
+    this.languages.clear();
+    this.size = 0l;
+    
+    System.out.println(games[0].getDrawableCaption());
+
+    
+    for (Game game : games)
+    {
+      System.out.println(game.getDrawableLocation());
+
+      location.add(game.getLocation());
+      languages.add(game.getLanguages());
+      size += game.getSizeInBytes();      
+    }
+    
   }
   
   public String getTitleForBias(BiasSet bias, boolean acceptFallback)
@@ -89,7 +110,7 @@ public class GameClone implements Iterable<Game>, Drawable
       return game != null ? game.getTitle() : null;
     }
   }
-   
+
   public Game getBestMatchForBias(BiasSet bias, boolean acceptFallback)
   {    
     for (Location location : bias.getLocations())
@@ -144,6 +165,7 @@ public class GameClone implements Iterable<Game>, Drawable
   
   public Iterator<Game> iterator() { return Arrays.asList(games).iterator(); }
   public Stream<Game> stream() { return Arrays.stream(games); }
+  public List<Game> list() { return Arrays.asList(games); } 
   
   @Override public String getDrawableCaption() 
   { 

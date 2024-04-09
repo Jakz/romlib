@@ -40,6 +40,9 @@ public class GameSet implements Iterable<Game>, GameMap
 
 	private GameList list;
 	private CloneSet clones;
+	
+	private Path datPath;
+	private GameSetUUID uuid;
 		
 	private GameSetFeatures helper;
 	
@@ -58,6 +61,7 @@ public class GameSet implements Iterable<Game>, GameMap
 		this.loaded = false;
 		this.assetCache = new AssetCache();
 		this.helper = helper.apply(this);
+		setUUIDAsDefault();
 	}
 	
 	public GameSet(Platform platform, Provider provider, DataSupplier loader)
@@ -72,6 +76,7 @@ public class GameSet implements Iterable<Game>, GameMap
 	  this.loaded = false;
 	  this.assetCache = new AssetCache();
 	  this.helper = GameSetFeatures.of(this);
+	  setUUIDAsDefault();
   }
 	
 	public GameSet(Platform platform, Provider provider, GameList list, CloneSet clones)
@@ -87,6 +92,7 @@ public class GameSet implements Iterable<Game>, GameMap
 	  this.assetCache = new AssetCache();
 	  this.helper = GameSetFeatures.of(this);
 	  this.loaded = true;
+	  setUUIDAsDefault();
 	}
 
 	public void setClones(CloneSet clones) { setClones(clones, true); }
@@ -139,6 +145,11 @@ public class GameSet implements Iterable<Game>, GameMap
 	   list.resetStatus(); 
 	   if (clones != null)
 	     clones.resetStatus();
+	}
+	
+	public void refreshInfo()
+	{
+	  info.computeStats(this);
 	}
 
 	
@@ -195,7 +206,7 @@ public class GameSet implements Iterable<Game>, GameMap
 	@Override
   public String toString()
 	{
-		return platform.getName()+" ("+info.getCaption()+")";
+		return platform.fullName()+" ("+info.getCaption()+")";
 	}
 	
 	public String ident()
@@ -203,11 +214,32 @@ public class GameSet implements Iterable<Game>, GameMap
 		return platform.getTag()+"-"+info.getProvider().getIdentifier()+"-"+info.getFormat().getIdent();
 	}
 	
+	public GameSetUUID uuid()
+	{
+	  return uuid; 
+	}
+
+	public void setUUIDAsDefault()
+	{
+	  uuid = new GameSetUUID(ident());
+	  datPath = Paths.get("dat/"+ident()+"."+info.getFormat().getExtension());
+	}
+	
+	public void setUUID(GameSetUUID uuid)
+	{
+	  this.uuid = uuid;
+	}
+	
+	public void setDatPath(Path path)
+	{
+	  datPath = path;
+	}
+	
 	public boolean isPresentOnDisk() { return Files.exists(datPath()); }
 	
 	public Path datPath()
 	{
-		return Paths.get("dat/"+ident()+"."+info.getFormat().getExtension());
+		return datPath;
 	}
 	
 	public Path getAttachmentPath()
@@ -217,7 +249,7 @@ public class GameSet implements Iterable<Game>, GameMap
 	
   public final Path getAssetPath(Asset asset, boolean asArchive)
   {
-    Path base = Paths.get("data/", ident(), "assets").resolve(asset.getPath());
+    Path base = Paths.get("data/", uuid().toString(), "assets").resolve(asset.getPath());
     
     if (!asArchive)
       return base;

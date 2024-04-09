@@ -29,6 +29,7 @@ public class LocationSet
   public void add(Location location) { mask |= location.mask; }
   public void add(LocationSet set) { mask |= set.mask; }
   
+  public void clear() { mask = 0; }
   
   public boolean is(Location location) { return (mask & location.mask) != 0; }
   public boolean isAtLeast(Location location) { return (mask & location.mask) == mask; }

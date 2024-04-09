@@ -177,23 +177,13 @@ public class SearchPanel extends JPanel
 		active = true;
 	}
 	
-	public Predicate<Drawable> buildSearchPredicate()
+	public Predicate<Game> buildSearchPredicate()
 	{
-	  //TODO: ugly hack, we really must find a way to manage Game and GameClone objects in the same way
-	  Predicate<Drawable> predicate = d -> {
-	    if (d instanceof Game)
-	    {
+	  Predicate<Game> predicate = d -> {
 	      if (searcher != null)
 	        return searcher.search(freeSearchField.getText()).test((Game)d);
 	      else
 	        return true;
-	    }
-	    else if (d instanceof GameClone)
-	    {
-	      return true;
-	    }
-	    else
-	      return true;
 	  };
     
     Location location = locations.getItemAt(locations.getSelectedIndex());

@@ -119,6 +119,11 @@ public class Game implements Comparable<Game>, Iterable<Rom>, GameAttributeInter
 	  return set.helper().gameIdGenerator().compute(this);
 	  //  throw new UnsupportedOperationException("no GameID generator for sets with multiple roms per game");
 	}
+	
+	public boolean isMatching(GameRef ref)
+	{
+	  return ref.isMatching(this);
+	}
 		
 	public void setStatus(GameStatus status) { this.status = status; } // TODO: should be visible?
 	public GameStatus getStatus() { return status; }

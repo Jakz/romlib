@@ -107,7 +107,13 @@ public enum Location
   
   public static Location getExactLocation(LocationSet set)
   {
-    return mapping.getOrDefault(set.getMask(), Location.NONE);
+    long mask = set.getMask();
+    
+    //TODO: hack for US+EU+JP considered as WORLD
+    if ((mask & WORLD.mask) == WORLD.mask)
+      mask = WORLD.mask;
+    
+    return mapping.getOrDefault(mask, Location.NONE);
   }
   
   public static List<Location> getFuzzyLocations(LocationSet set)

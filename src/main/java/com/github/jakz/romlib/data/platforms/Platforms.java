@@ -22,7 +22,9 @@ public enum Platforms implements Platform
 
   LYNX("lynx", "Atari", "Lynx", new String[] { "lnx" }),
   
+  PS1("ps1", "Sony", "Playstation", new String[] { "bin", "iso", "chd" }),
   PS2("ps2", "Sony", "Playstation 2", new String[] { "bin", "iso" }),
+
   PSP("psp", "Sony", "Playstation Portable", new String[] { "iso", "cso" }, Icon.SYSTEM_SONY_PLAYSTATION_PORTABLE),
   
   WS("ws", "Bandai", "WonderSwan", new String[] {"ws"}, Icon.SYSTEM_WONDERSWAN),
@@ -34,7 +36,9 @@ public enum Platforms implements Platform
 
   NGP("ngp", null, "Neo-Geo Pocket", new String[] {"ngp"}, Icon.SYSTEM_NEO_GEO_POCKET),
   
-  IBM_PC("pc", null, "PC", new String[] { "bin" })
+  IBM_PC("pc", null, "PC", new String[] { "bin" }),
+  
+  A2600("a2600", "Atari", "2600", new String[] { "a26" }),
   
   ;
   
@@ -65,7 +69,7 @@ public enum Platforms implements Platform
   }
   
   @Override
-  public String getName()
+  public String fullName()
   {
     return company != null ? (company + " - " + name) : name;
   }
@@ -75,6 +79,9 @@ public enum Platforms implements Platform
   {
     return tag;
   }
+  
+  @Override public String company() { return company; }
+  @Override public String shortName() { return name; }
   
   @Override
   public String[] fileExtensions() { return exts; }

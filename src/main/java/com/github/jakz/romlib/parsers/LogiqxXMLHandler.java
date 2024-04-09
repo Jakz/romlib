@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 
 import com.github.jakz.romlib.data.game.Date;
 import com.github.jakz.romlib.data.game.Game;
+import com.github.jakz.romlib.data.game.GameRef;
 import com.github.jakz.romlib.data.game.Rom;
 import com.github.jakz.romlib.data.game.RomSize;
 import com.github.jakz.romlib.data.game.attributes.GameAttribute;
@@ -25,7 +26,8 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
   public static class Data
   {
     public Map<String, String> setAttributes;
-    public Map<String, String> childToParentCloneMap;
+    public Map<GameRef, GameRef> childToParentCloneMap;
+    public Map<GameRef, Game> gameRefMapping;
     public GameList list;
     
     public boolean hasClones() { return !childToParentCloneMap.isEmpty(); }
@@ -43,9 +45,10 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
   
   RomSize.Set sizeSet = new RomSize.NullSet();
   
-  Map<String, String> attributes;
-  Map<String, String> childToParentCloneMap;
-  
+  private Map<String, String> attributes;
+  Map<GameRef, GameRef> childToParentCloneMap;
+  public Map<GameRef, Game> gameRefMapping;
+
   List<Game> games;
   
   Game game;
@@ -53,6 +56,7 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
   String gameDescription;
   String gameComment;
   Date gameYear;
+  String gameIdentifier;
   
   List<Rom> roms;
   String romName;
@@ -80,6 +84,7 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
     roms = new ArrayList<>();
     attributes = new HashMap<>();
     childToParentCloneMap = new HashMap<>();
+    gameRefMapping = new HashMap<>();
   }
 
   @Override
@@ -97,7 +102,17 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
          
           /* if cloneof is present prepare it */
           if (hasAttr("cloneof"))
-            childToParentCloneMap.put(gameName, attrString("cloneof"));
+            childToParentCloneMap.put(GameRef.ofName(gameName), GameRef.ofName(attrString("cloneof")));
+          
+          /* if game has id (used by no-intro for parent-clone management */
+          if (hasAttr("id"))
+          {
+            gameIdentifier = attrString("id");
+            
+            if (hasAttr("cloneofid"))
+              childToParentCloneMap.put(GameRef.ofIdentifier(gameIdentifier), GameRef.ofIdentifier(attrString("cloneofid")));
+          }
+            
         }
         case "rom":
         {
@@ -110,6 +125,10 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
         }
       }
     }
+    else
+    {
+      /* header info */
+    }
   }
 
   @Override
@@ -120,7 +139,10 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
       switch (name)
       {
         case "header": status = Status.NOWHERE; break;
-        default: attributes.put(name, asString()); break;
+
+        default: 
+          attributes.put(name, asString());
+          break;
       }
     }
     else
@@ -148,14 +170,23 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
           if (gameYear != null)
             game.setAttribute(GameAttribute.RELEASE_DATE, gameYear);
           
+          if (gameIdentifier != null)
+          {
+            game.setAttribute(GameAttribute.IDENTIFIER, gameIdentifier);
+            gameRefMapping.put(GameRef.ofIdentifier(gameIdentifier), game);
+          }
+          
+          gameRefMapping.put(GameRef.ofName(gameName), game);
+          
           games.add(game); 
           
-          game = null; 
-          
+          game = null;
+    
           gameDescription = null;
           gameName = null;
           gameComment = null;
           gameYear = null;
+          gameIdentifier = null;
           
           roms.clear();;
           break;
@@ -167,6 +198,7 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
           data = new Data();
           data.setAttributes = attributes;
           data.childToParentCloneMap = childToParentCloneMap;
+          data.gameRefMapping = gameRefMapping;
           data.list = new GameList(games.toArray(new Game[games.size()]), sizeSet);
           break;
         }
