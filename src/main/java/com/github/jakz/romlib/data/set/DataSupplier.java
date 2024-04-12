@@ -7,6 +7,7 @@ import com.github.jakz.romlib.data.cataloguers.CloneSetCreator;
 import com.github.jakz.romlib.data.cataloguers.GameListTransformer;
 import com.github.jakz.romlib.data.cataloguers.GameCataloguer;
 import com.github.jakz.romlib.data.cataloguers.TitleNormalizer;
+import com.github.jakz.romlib.data.cataloguers.impl.NormalizedTitleCloneSetCreator;
 import com.github.jakz.romlib.data.game.GameClone;
 import com.github.jakz.romlib.data.game.attributes.GameAttribute;
 
@@ -102,6 +103,10 @@ public interface DataSupplier
       {
         Data data = DataSupplier.this.load(set);
         data.solve();
+        
+        if (data.clones.isEmpty())
+          return new Data(data.games.orElse(null), new NormalizedTitleCloneSetCreator().generate(data.games.get()), data.provider.orElse(null));
+        
         return data;
       }
       
