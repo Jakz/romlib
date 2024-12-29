@@ -25,7 +25,7 @@ public enum Platforms implements Platform
   PS1("ps1", "Sony", "Playstation", new String[] { "bin", "iso", "chd" }),
   PS2("ps2", "Sony", "Playstation 2", new String[] { "bin", "iso" }),
 
-  PSP("psp", "Sony", "Playstation Portable", new String[] { "iso", "cso" }, Icon.SYSTEM_SONY_PLAYSTATION_PORTABLE),
+  PSP("psp", "Sony", "Playstation Portable", new String[] { "iso", "cso" }, Icon.SYSTEM_SONY_PLAYSTATION_PORTABLE, new ScreenSize(480, 272)),
   
   WS("ws", "Bandai", "WonderSwan", new String[] {"ws"}, Icon.SYSTEM_WONDERSWAN),
   GG("gg", "Sega", "Game Gear", new String[] {"gg"}, Icon.SYSTEM_GAME_GEAR),
@@ -48,20 +48,38 @@ public enum Platforms implements Platform
   public final String company;
   public final String name;
   public final String[] exts;
+  public final PlatformDetails details;
+  
   private final Icon icon;
   
   private Platforms(String tag, String company, String name, String[] exts, Icon icon)
+  {
+    this(tag, company, name, exts, icon, new ScreenSize[0]);
+  }
+  
+  private Platforms(String tag, String company, String name, String[] exts, Icon icon, ScreenSize[] screenSizes)
   {
     this.tag = tag;
     this.company = company;
     this.name = name;
     this.exts = exts;
     this.icon = icon;
+    this.details = new PlatformDetails();
+  }
+  
+  private Platforms(String tag, String company, String name, String[] exts, Icon icon, ScreenSize screenSize)
+  {
+    this.tag = tag;
+    this.company = company;
+    this.name = name;
+    this.exts = exts;
+    this.icon = icon;
+    this.details = new PlatformDetails(screenSize);
   }
   
   private Platforms(String tag, String company, String name, String[] exts)
   {
-    this(tag, company, name, exts, null);
+    this(tag, company, name, exts, null, new ScreenSize[0]);
   }
   
   @Override
@@ -82,6 +100,12 @@ public enum Platforms implements Platform
     return tag;
   }
   
+  @Override
+  public PlatformDetails details()
+  {
+    return details;
+  }
+    
   @Override public String company() { return company; }
   @Override public String shortName() { return name; }
   

@@ -16,6 +16,8 @@ public interface Platform
   public ImageIcon getIcon();
   public String[] fileExtensions();
 
+  public PlatformDetails details();
+  
   default public String defaultFileExtension() { return fileExtensions()[0]; }  
   
   public static Platform of(final String name)
@@ -27,7 +29,8 @@ public interface Platform
       @Override public String shortName() { return name; }
       @Override public String company() { return ""; }
       @Override public ImageIcon getIcon() { return null; }
-      @Override public String[] fileExtensions() { return new String[] { "" }; }   
+      @Override public String[] fileExtensions() { return new String[] { "" }; }  
+      public PlatformDetails details() { return new PlatformDetails(); }
     };
   }
   

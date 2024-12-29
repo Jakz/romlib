@@ -193,7 +193,9 @@ public class LogiqxXMLHandler extends XMLHandler<LogiqxXMLHandler.Data>
           
           gameRefMapping.put(GameRef.ofName(gameName), game);
           
-          games.add(game); 
+          //TODO: skip empty?
+          //if (game.romCount() > 0)
+            games.add(game); 
           
           game = null;
     

@@ -246,7 +246,7 @@ public class GameSet implements Iterable<Game>, GameMap
 	{
 	  return helper.getAttachmentPath();
 	}
-	
+		
   public final Path getAssetPath(Asset asset, boolean asArchive)
   {
     Path base = Paths.get("data/", uuid().toString(), "assets").resolve(asset.getPath());

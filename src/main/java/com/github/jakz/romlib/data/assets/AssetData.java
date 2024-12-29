@@ -3,6 +3,7 @@ package com.github.jakz.romlib.data.assets;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -22,7 +23,12 @@ public class AssetData
   private String urlData;
   private long crc;
   
-  public AssetData(Asset asset, Game game) { this.asset = asset; this.game = game; }
+  public AssetData(Asset asset, Game game)
+  { 
+    this.asset = asset;
+    this.game = game;
+    this.path = Paths.get(".");
+  }
 
   public void setCRC(long crc) { this.crc = crc; }
   public void setPath(Path path) { this.path = path; }
