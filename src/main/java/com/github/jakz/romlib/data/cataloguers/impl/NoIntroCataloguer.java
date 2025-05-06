@@ -141,7 +141,21 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("Sk", new Rule(game -> game.getLanguages().add(Language.SLOVAK)));
     mappers.put("He", new Rule(game -> game.getLanguages().add(Language.HEBREW)));
     mappers.put("Th", new Rule(game -> game.getLanguages().add(Language.THAI)));
+    mappers.put("Ar", new Rule(game -> game.getLanguages().add(Language.ARABIC)));
 
+    mappers.put("Zh-Hans", new Rule(game -> game.getLanguages().add(Language.CHINESE)));
+    mappers.put("Zh-Hant", new Rule(game -> game.getLanguages().add(Language.CHINESE)));
+    mappers.put("En-GB", new Rule(game -> game.getLanguages().add(Language.ENGLISH)));
+    mappers.put("En-US", new Rule(game -> game.getLanguages().add(Language.ENGLISH)));
+    mappers.put("Es-ES", new Rule(game -> game.getLanguages().add(Language.SPANISH)));
+    mappers.put("Es-MX", new Rule(game -> game.getLanguages().add(Language.SPANISH)));
+    mappers.put("Es-XL", new Rule(game -> game.getLanguages().add(Language.SPANISH)));
+    mappers.put("Fr-FR", new Rule(game -> game.getLanguages().add(Language.FRENCH)));
+    mappers.put("Fr-CA", new Rule(game -> game.getLanguages().add(Language.FRENCH)));
+    mappers.put("Pt-BR", new Rule(game -> game.getLanguages().add(Language.PORTUGUESE_BR)));
+    mappers.put("Pt-PT", new Rule(game -> game.getLanguages().add(Language.PORTUGUESE)));
+
+    
     /*
      * TODO: verify that settng the version doesn't override another one in case of
      * multiple versions. Actually maybe it would be better to manage version as
@@ -169,6 +183,7 @@ public class NoIntroCataloguer implements GameCataloguer
     mappers.put("Prerelease", new Rule(versionUntouched, game -> game.setVersion(new Version.Custom("Prerelease"))));
 
     mappers.put("Unl", new Rule(game -> game.setLicensed(false)));
+    mappers.put("DLC", new Rule(game -> game.setAttribute(GameAttribute.DLC, true)));
 
     mappers.put("NTSC", new Rule(game -> game.setVideoFormat(VideoFormat.NTSC)));
     mappers.put("PAL", new Rule(game -> game.setVideoFormat(VideoFormat.PAL)));
@@ -180,6 +195,8 @@ public class NoIntroCataloguer implements GameCataloguer
 
     mappers.put("NDSi Enhanced", new Rule(game -> game.setAttribute(NDS.Attribute.NDSI_ENHANCED, true)));
 
+    mappers.put("eShop", new Rule(game -> game.setAttribute(GameAttribute.MEDIA, "eShop")));
+    
     mappers.put("[b]", new Rule(game -> game.setAttribute(GameAttribute.BAD_DUMP, true)));
 
     /* PSP collections */
@@ -231,6 +248,27 @@ public class NoIntroCataloguer implements GameCataloguer
         return matched;
       }
 
+    });
+    
+    lambdas.add(new LambdaCataloguer()
+    {
+      private final Pattern versionPattern = Pattern.compile("^v([0-9]+)$");
+      
+      @Override
+      public boolean catalogue(String token, Game game)
+      {
+        Matcher matcher = versionPattern.matcher(token);
+        boolean matched = matcher.find();
+
+        if (matched)
+        {
+          int major = Integer.parseInt(matcher.group(1));
+          // int minor = Integer.parseInt(matcher.group(2));
+          game.setVersionNumber(new VersionNumber(major));
+        }
+
+        return matched;
+      }
     });
 
     lambdas.add(new LambdaCataloguer()

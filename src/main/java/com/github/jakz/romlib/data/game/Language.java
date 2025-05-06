@@ -40,7 +40,8 @@ public enum Language
 	HEBREW("Hebrew", "HE", "HEB", Icon.FLAG_ISRAEL),
 	THAI("Thai", "TH", "THA", Icon.FLAG_THAILAND),
   HINDI("Hindi", "HI", Icon.FLAG_INDIA),
-  CZECH("Czech", "CS", Icon.FLAG_CZECH_REPUBLIC)
+  CZECH("Czech", "CS", Icon.FLAG_CZECH_REPUBLIC),
+  ARABIC("Arabic", "AR", Icon.FLAG_SAUDI_ARABIA),
   
 	;
 	

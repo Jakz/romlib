@@ -31,6 +31,7 @@ public enum Icon
   FLAG_POLAND("flag_poland"),
   FLAG_PORTUGAL("flag_portugal"),
   FLAG_RUSSIA("flag_russia"),
+  FLAG_SAUDI_ARABIA("flag_saudi_arabia"),
   FLAG_SINGAPORE("flag_singapore"),
   FLAG_SLOVAKIA("flag_slovakia"),
   FLAG_SLOVENIA("flag_slovenia"),

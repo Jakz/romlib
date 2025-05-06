@@ -96,6 +96,8 @@ public enum Text implements I18N
   GAME_INFO_BAD_DUMP,
   ROM_INFO_LICENSED,
   ROM_INFO_PATH,
+  GAME_INFO_MEDIA,
+  GAME_INFO_DLC,
   ;
   
   private static final ResourceBundle res = ResourceBundle.getBundle("com.github.jakz.romlib.ui.i18n.Strings", Locale.ENGLISH);

@@ -4,9 +4,12 @@ import java.awt.Dimension;
 
 public class ScreenSize extends Dimension
 {
-  public ScreenSize(int width, int height)
+  DisplayType type;
+  
+  public ScreenSize(DisplayType type, int width, int height)
   {
     super(width, height);
+    this.type = type;
   }
   
   float aspectRatio() { return width / (float)height; }

@@ -18,6 +18,11 @@ public class VersionNumber
     this(major, minor, "");
   }
   
+  public VersionNumber(int major)
+  {
+    this(major, null, null);
+  }
+  
   public VersionNumber(int major, int minor)
   {
     this(major, Integer.toString(minor), "");

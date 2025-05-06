@@ -10,7 +10,7 @@ import com.github.jakz.romlib.ui.Icon;
 
 public enum Platforms implements Platform
 {
-  NES("nes", "Nintendo", "NES", new String[] {"nes", "rom", "unf"}, Icon.SYSTEM_NES),
+  NES("nes", "Nintendo", "NES", new String[] {"nes", "rom", "unf"}, Icon.SYSTEM_NES, new ScreenSize(DisplayType.AnalogPAL, 256, 240)),
   SNES("snes", "Nintendo", "Super Nintendo", new String[] {"smc", "sfc", "fig"}, Icon.SYSTEM_SUPER_NINTENDO),
   N64("n64", "Nintendo", "64", new String[] {"n64", "v64", "u64", "z64"}, Icon.SYSTEM_NINTENDO_64),
   GC("gc", "Nintendo", "GameCube", new String[] {"iso", "bin" }, Icon.SYSTEM_NINTENDO_GAMECUBE),
@@ -19,13 +19,15 @@ public enum Platforms implements Platform
   GBA("gba", "Nintendo", "GameBoy Advance",new String[] {"gba", "agb", "bin"}, Icon.SYSTEM_GAMEBOY_ADVANCE),
   NDS("nds", "Nintendo", "DS", new String[] {"nds", "dsi"}, Icon.SYSTEM_NINTENDO_DS),
   _3DS("3ds", "Nintendo", "3DS", new String[] {"3ds", "cia", "3dsx"}),
+  SWITCH("ns", "Nintendo", "Switch", new String[] {"nsp", "xci"}),
 
+  
   LYNX("lynx", "Atari", "Lynx", new String[] { "lnx" }),
   
   PS1("ps1", "Sony", "Playstation", new String[] { "bin", "iso", "chd" }),
   PS2("ps2", "Sony", "Playstation 2", new String[] { "bin", "iso" }),
 
-  PSP("psp", "Sony", "Playstation Portable", new String[] { "iso", "cso" }, Icon.SYSTEM_SONY_PLAYSTATION_PORTABLE, new ScreenSize(480, 272)),
+  PSP("psp", "Sony", "Playstation Portable", new String[] { "iso", "cso" }, Icon.SYSTEM_SONY_PLAYSTATION_PORTABLE, new ScreenSize(DisplayType.LCD, 480, 272)),
   
   WS("ws", "Bandai", "WonderSwan", new String[] {"ws"}, Icon.SYSTEM_WONDERSWAN),
   GG("gg", "Sega", "Game Gear", new String[] {"gg"}, Icon.SYSTEM_GAME_GEAR),

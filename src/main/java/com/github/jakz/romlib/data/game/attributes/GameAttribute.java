@@ -57,6 +57,9 @@ public enum GameAttribute implements Attribute
   
   LICENSED(Text.ROM_INFO_LICENSED),
   BAD_DUMP(Text.GAME_INFO_BAD_DUMP),
+  DLC(Text.GAME_INFO_DLC),
+  
+  MEDIA(Text.GAME_INFO_MEDIA),
   
   PATH(Text.ROM_INFO_PATH)
   ;

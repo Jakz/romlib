@@ -78,6 +78,11 @@ public final class Provider
     return new Provider(name, tag, flavour, suffix, author, source);
   }
   
+  public Provider withFlavourAndSuffix(String flavour, String suffix)
+  {
+    return new Provider(name, tag, flavour, suffix, author, source);
+  }
+  
   public Type getType() { return type; }
   public String getName() { return name; }
   public String getTag() { return tag; }
